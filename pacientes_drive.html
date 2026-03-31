@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Expedientes de Pacientes</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f5f2ee; --surface:#fff; --accent:#2d6a4f; --accent2:#74c69d;
+    --text:#1a1a1a; --muted:#6b7280; --border:#e5e0d8;
+    --shadow:0 4px 24px rgba(0,0,0,0.07); --radius:16px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+  header{background:var(--accent);padding:22px 32px;position:relative;overflow:hidden;}
+  header::before{content:'';position:absolute;width:300px;height:300px;background:rgba(116,198,157,0.15);border-radius:50%;top:-130px;right:-60px;}
+  .header-inner{position:relative;z-index:1;max-width:800px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .logo-row{display:flex;align-items:center;gap:10px;}
+  .logo-icon{width:38px;height:38px;background:var(--accent2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;}
+  .header-title{font-family:'DM Serif Display',serif;font-size:1.5rem;color:#fff;font-weight:400;}
+  .header-sub{font-size:0.8rem;color:rgba(255,255,255,0.65);margin-top:2px;}
+  .header-right{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+  .btn-hdr{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;padding:8px 14px;border-radius:20px;font-size:0.8rem;cursor:pointer;white-space:nowrap;}
+  .btn-hdr:hover{background:rgba(255,255,255,0.25);}
+  .btn-hdr.green{background:var(--accent2);color:var(--accent);border-color:var(--accent2);font-weight:700;}
+  .btn-hdr.green:hover{background:#5db88a;color:#fff;}
+
+  main{max-width:800px;margin:0 auto;padding:24px 16px 60px;}
+
+  .setup-card{background:var(--surface);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:20px;}
+  .setup-card h2{font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--accent);margin-bottom:6px;}
+  .setup-card p{font-size:0.85rem;color:var(--muted);margin-bottom:16px;line-height:1.6;}
+
+  label{font-size:0.82rem;font-weight:600;color:var(--muted);display:block;margin-bottom:4px;}
+  input[type=text],input[type=password]{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:0.9rem;background:var(--bg);color:var(--text);outline:none;transition:border-color 0.2s;margin-bottom:12px;}
+  input:focus{border-color:var(--accent);background:#fff;}
+
+  .btn{padding:11px 20px;background:var(--accent);color:#fff;border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:0.9rem;font-weight:600;cursor:pointer;transition:background 0.15s;white-space:nowrap;}
+  .btn:hover{background:#1e5c3a;}
+  .btn-row{display:flex;gap:10px;flex-wrap:wrap;}
+
+  .alert{padding:10px 14px;border-radius:10px;font-size:0.83rem;margin-top:10px;display:none;}
+  .alert.success{background:#d1fae5;color:#065f46;display:block;}
+  .alert.error{background:#fee2e2;color:#991b1b;display:block;}
+  .alert.info{background:#dbeafe;color:#1e40af;display:block;}
+
+  .oauth-banner{background:#fff3cd;border:1.5px solid #f59e0b;border-radius:12px;padding:14px 18px;margin-bottom:18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+  .oauth-banner p{font-size:0.85rem;color:#92400e;flex:1;}
+  .btn-oauth{padding:9px 16px;background:#f59e0b;border:none;color:#fff;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:700;cursor:pointer;white-space:nowrap;}
+  .btn-oauth:hover{background:#d97706;}
+
+  .toolbar{display:flex;gap:10px;align-items:center;margin-bottom:18px;flex-wrap:wrap;}
+  .search-wrap{position:relative;flex:1;min-width:180px;}
+  .search-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;}
+  #searchInput{width:100%;padding:12px 14px 12px 40px;border:1.5px solid var(--border);border-radius:12px;font-size:0.93rem;background:var(--surface);box-shadow:var(--shadow);margin-bottom:0;}
+  .btn-new{padding:11px 16px;background:var(--accent2);border:none;color:var(--accent);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:700;cursor:pointer;white-space:nowrap;transition:all 0.2s;box-shadow:var(--shadow);}
+  .btn-new:hover{background:var(--accent);color:#fff;}
+
+  #results{display:flex;flex-direction:column;gap:10px;}
+
+  .patient-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;animation:fadeUp 0.2s ease both;transition:border-color 0.2s;}
+  .patient-card:hover{border-color:var(--accent2);}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+  .patient-header{display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;user-select:none;}
+  .patient-header:hover .patient-name{color:var(--accent);}
+  .avatar{width:42px;height:42px;min-width:42px;background:linear-gradient(135deg,var(--accent2),var(--accent));border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:1rem;color:#fff;}
+  .patient-name{font-family:'DM Serif Display',serif;font-size:1rem;color:var(--text);flex:1;transition:color 0.2s;}
+  .chevron{color:var(--muted);font-size:0.8rem;transition:transform 0.2s;}
+  .patient-card.open .chevron{transform:rotate(90deg);}
+
+  .patient-body{display:none;border-top:1px solid var(--border);background:#fafaf8;padding:12px 16px;}
+  .patient-card.open .patient-body{display:block;}
+
+  /* FOLDER ROW */
+  .folder-block{margin-bottom:6px;}
+  .folder-row{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:10px;cursor:pointer;transition:background 0.15s;}
+  .folder-row:hover{background:#e8f5ee;}
+  .folder-name{font-size:0.88rem;font-weight:600;color:var(--text);flex:1;}
+  .folder-chevron{color:var(--muted);font-size:0.75rem;transition:transform 0.2s;}
+  .folder-row.open .folder-chevron{transform:rotate(90deg);}
+
+  /* FOLDER CONTENT */
+  .folder-content{display:none;padding-left:22px;margin-top:2px;}
+  .folder-content.open{display:block;}
+
+  .folder-actions{display:flex;gap:6px;padding:6px 8px;margin-bottom:4px;}
+  .btn-add-doc{padding:5px 11px;background:#e8f5ee;border:1.5px solid var(--accent2);color:var(--accent);border-radius:7px;font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:700;cursor:pointer;transition:all 0.15s;display:inline-flex;align-items:center;gap:4px;}
+  .btn-add-doc:hover{background:var(--accent);color:#fff;border-color:var(--accent);}
+
+  .files-inner{display:flex;flex-direction:column;gap:3px;}
+  .file-item{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:8px;transition:background 0.15s;}
+  .file-item:hover{background:#d1fae5;}
+  .file-item a{color:var(--accent);text-decoration:none;font-size:0.83rem;font-weight:500;flex:1;}
+  .file-item a:hover{text-decoration:underline;}
+
+  .body-actions{display:flex;gap:8px;margin-top:12px;padding-top:10px;border-top:1px solid var(--border);flex-wrap:wrap;}
+  .btn-sm{padding:7px 13px;border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.8rem;font-weight:600;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:5px;}
+  .btn-sm-yellow{background:#fff3cd;border:1.5px solid #f59e0b;color:#92400e;}
+  .btn-sm-yellow:hover{background:#f59e0b;color:#fff;border-color:#f59e0b;}
+  .btn-sm-outline{background:transparent;border:1.5px solid var(--accent);color:var(--accent);}
+  .btn-sm-outline:hover{background:var(--accent);color:#fff;}
+
+  .spinner{display:inline-block;width:20px;height:20px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.7s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .state-msg{text-align:center;padding:40px 20px;color:var(--muted);font-size:0.9rem;}
+  .state-msg .big{font-size:2.5rem;margin-bottom:10px;}
+  .state-msg strong{color:var(--text);display:block;font-size:1rem;margin-bottom:4px;}
+
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:100;align-items:center;justify-content:center;padding:16px;}
+  .modal-overlay.open{display:flex;}
+  .modal{background:var(--surface);border-radius:var(--radius);padding:24px;max-width:400px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.2);animation:fadeUp 0.2s ease;}
+  .modal h3{font-family:'DM Serif Display',serif;font-size:1.15rem;color:var(--accent);margin-bottom:6px;}
+  .modal p{font-size:0.84rem;color:var(--muted);margin-bottom:14px;}
+  .modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:14px;}
+  .btn-cancel{padding:9px 16px;background:var(--bg);border:1.5px solid var(--border);color:var(--muted);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.85rem;cursor:pointer;}
+
+  hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
+  .steps{display:flex;flex-direction:column;gap:8px;}
+  .step{display:flex;align-items:flex-start;gap:8px;font-size:0.82rem;color:var(--muted);line-height:1.5;}
+  .step-num{min-width:20px;height:20px;background:var(--accent2);color:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;margin-top:1px;}
+  .step a{color:var(--accent);}
+  code{background:#f0f0f0;padding:1px 5px;border-radius:4px;font-size:0.8rem;}
+  .empty-folder{padding:5px 8px;font-size:0.8rem;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div>
+      <div class="logo-row">
+        <div class="logo-icon">🩺</div>
+        <div>
+          <div class="header-title">Expedientes de Pacientes</div>
+          <div class="header-sub" id="headerSub">No conectado</div>
+        </div>
+      </div>
+    </div>
+    <div class="header-right">
+      <button class="btn-hdr green" id="btnOauth" onclick="loginOAuth()" style="display:none;">🔐 Activar creación</button>
+      <button class="btn-hdr" onclick="toggleSetup()">⚙️ Configuración</button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <div class="setup-card" id="setupCard">
+    <h2>⚙️ Configuración de Google Drive</h2>
+    <p>Solo necesitas configurar esto <strong>una vez</strong>. La app lo recordará siempre.</p>
+    <label>🔑 API Key de Google</label>
+    <input type="password" id="apiKeyInput" placeholder="AIzaSy...">
+    <label>📂 ID de la carpeta "EXPEDIENTES DE PACIENTES"</label>
+    <input type="text" id="folderIdInput" placeholder="1P7OEUn2JW9zBNrCA0O9H_HtCWYEqo8mY">
+    <div class="btn-row">
+      <button class="btn" onclick="guardarYConectar()">💾 Guardar y conectar</button>
+      <button class="btn" style="background:#6b7280;" onclick="toggleSetup()">Cerrar</button>
+    </div>
+    <div class="alert" id="setupAlert"></div>
+    <hr>
+    <p style="font-size:0.82rem;font-weight:600;color:var(--muted);margin-bottom:8px;">¿Cómo obtener el ID de la carpeta?</p>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><span>Abre <a href="https://drive.google.com" target="_blank">drive.google.com</a> y entra a <strong>EXPEDIENTES DE PACIENTES</strong></span></div>
+      <div class="step"><div class="step-num">2</div><span>Mira el URL: <code>drive.google.com/drive/folders/<strong>ESTE_ES_EL_ID</strong></code></span></div>
+      <div class="step"><div class="step-num">3</div><span>Copia ese código y pégalo arriba. La carpeta debe ser pública.</span></div>
+    </div>
+  </div>
+
+  <div id="oauthBanner" class="oauth-banner" style="display:none;">
+    <p>🔐 <strong>Para crear carpetas y documentos</strong> necesitas iniciar sesión con Google una vez.</p>
+    <button class="btn-oauth" onclick="loginOAuth()">Iniciar sesión con Google</button>
+  </div>
+
+  <div id="toolbar" style="display:none;" class="toolbar">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Buscar paciente..." oninput="buscar(this.value)">
+    </div>
+    <button class="btn-new" onclick="abrirModalNuevo()">➕ Nuevo paciente</button>
+  </div>
+
+  <div id="results">
+    <div class="state-msg">
+      <div class="big">🩺</div>
+      <strong>Bienvenido</strong>
+      Configura tu Google Drive arriba para comenzar
+    </div>
+  </div>
+
+</main>
+
+<!-- MODAL NUEVO PACIENTE -->
+<div class="modal-overlay" id="modalNuevo">
+  <div class="modal">
+    <h3>➕ Nuevo paciente</h3>
+    <p>Se creará la carpeta con todas las subcarpetas estándar.</p>
+    <label>Nombre completo</label>
+    <input type="text" id="nuevoNombre" placeholder="Ej: JUAN PÉREZ GARCÍA">
+    <div class="alert" id="modalAlert"></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="cerrarModal('modalNuevo')">Cancelar</button>
+      <button class="btn" onclick="crearPaciente()">✅ Crear</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL NUEVO DOC -->
+<div class="modal-overlay" id="modalDoc">
+  <div class="modal">
+    <h3>📝 Nuevo documento</h3>
+    <p id="modalDocTxt"></p>
+    <label>Nombre del documento</label>
+    <input type="text" id="nuevoDocNombre" placeholder="Ej: Ficha de seguimiento Marzo 2026">
+    <div class="alert" id="modalDocAlert"></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="cerrarModal('modalDoc')">Cancelar</button>
+      <button class="btn" onclick="crearDoc()">✅ Crear y abrir</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const CLIENT_ID = '944467948669-mq0s3fq0ig35hi6ers3flimrd1lrcq9o.apps.googleusercontent.com';
+  const SUBCARPETAS = ['ANAMNESIS','DATOS DE FILIACIÓN','FICHAS DE SEGUIMIENTO','ASISTENCIA','INFORMES DE PRUEBAS','PROGRAMA DE INTERVENCIÓN'];
+
+  let API_KEY='', ROOT_ID='', allPatients=[], currentFolderId='', currentFolderName='', oauthToken='';
+
+  // ── INIT ─────────────────────────────────────────────────
+  function init() {
+    API_KEY = localStorage.getItem('gd_api_key')||'';
+    ROOT_ID = localStorage.getItem('gd_root_id')||'';
+    oauthToken = localStorage.getItem('gd_oauth_token')||'';
+
+    const hash = window.location.hash;
+    if (hash && hash.includes('access_token')) {
+      const params = new URLSearchParams(hash.substring(1));
+      const token = params.get('access_token');
+      if (token) { oauthToken=token; localStorage.setItem('gd_oauth_token',token); window.history.replaceState({},document.title,window.location.pathname); }
+    }
+
+    if (API_KEY) document.getElementById('apiKeyInput').value=API_KEY;
+    if (ROOT_ID) document.getElementById('folderIdInput').value=ROOT_ID;
+    if (oauthToken) { document.getElementById('oauthBanner').style.display='none'; document.getElementById('btnOauth').style.display='none'; }
+    if (API_KEY && ROOT_ID) { document.getElementById('setupCard').style.display='none'; cargarPacientes(); }
+  }
+
+  function loginOAuth() {
+    const redirectUri = window.location.href.split('#')[0].split('?')[0];
+    window.location.href = 'https://accounts.google.com/o/oauth2/v2/auth'
+      +'?client_id='+encodeURIComponent(CLIENT_ID)
+      +'&redirect_uri='+encodeURIComponent(redirectUri)
+      +'&response_type=token'
+      +'&scope='+encodeURIComponent('https://www.googleapis.com/auth/drive')
+      +'&prompt=select_account';
+  }
+
+  function toggleSetup() {
+    const c=document.getElementById('setupCard');
+    c.style.display=c.style.display==='none'?'block':'none';
+  }
+
+  // ── GUARDAR CONFIG ────────────────────────────────────────
+  async function guardarYConectar() {
+    API_KEY=document.getElementById('apiKeyInput').value.trim();
+    ROOT_ID=document.getElementById('folderIdInput').value.trim();
+    if (!API_KEY||!ROOT_ID) { showAlert('setupAlert','Completa ambos campos.','error'); return; }
+    showAlert('setupAlert','⏳ Verificando...','info');
+    try {
+      const res=await gGet('https://www.googleapis.com/drive/v3/files/'+ROOT_ID+'?fields=name&key='+API_KEY);
+      localStorage.setItem('gd_api_key',API_KEY); localStorage.setItem('gd_root_id',ROOT_ID);
+      document.getElementById('headerSub').textContent='📂 '+res.name;
+      showAlert('setupAlert','✅ Conectado a: "'+res.name+'"','success');
+      setTimeout(()=>{document.getElementById('setupCard').style.display='none'; cargarPacientes();},900);
+    } catch(e) { showAlert('setupAlert','❌ '+e.message,'error'); }
+  }
+
+  // ── CARGAR PACIENTES ──────────────────────────────────────
+  async function cargarPacientes() {
+    document.getElementById('results').innerHTML='<div class="state-msg"><span class="spinner"></span><br><br>Cargando pacientes...</div>';
+    document.getElementById('toolbar').style.display='none';
+    if (!oauthToken) { document.getElementById('oauthBanner').style.display='flex'; document.getElementById('btnOauth').style.display='flex'; }
+    try {
+      let all=[],token=null;
+      do {
+        let url="https://www.googleapis.com/drive/v3/files?q='"+ROOT_ID+"'+in+parents+and+mimeType='application/vnd.google-apps.folder'+and+trashed=false&fields=files(id,name),nextPageToken&pageSize=100&orderBy=name&key="+API_KEY;
+        if (token) url+='&pageToken='+token;
+        const d=await gGet(url); all=all.concat(d.files||[]); token=d.nextPageToken;
+      } while(token);
+      allPatients=all;
+      document.getElementById('toolbar').style.display='flex';
+      if (!all.length) { document.getElementById('results').innerHTML='<div class="state-msg"><div class="big">📭</div><strong>No se encontraron pacientes</strong></div>'; return; }
+      mostrarPacientes(all);
+    } catch(e) { document.getElementById('results').innerHTML='<div class="state-msg"><div class="big">⚠️</div><strong>Error al cargar</strong>'+e.message+'</div>'; }
+  }
+
+  function buscar(q) {
+    q=q.trim().toLowerCase();
+    mostrarPacientes(q?allPatients.filter(p=>p.name.toLowerCase().includes(q)):allPatients,q);
+  }
+
+  // ── MOSTRAR PACIENTES ─────────────────────────────────────
+  function mostrarPacientes(list,query) {
+    query=query||'';
+    if (!list.length) { document.getElementById('results').innerHTML='<div class="state-msg"><div class="big">🔍</div><strong>Sin resultados</strong></div>'; return; }
+    const initials=n=>{const p=n.trim().split(' ');return p.length>=2?(p[0][0]+p[1][0]).toUpperCase():n.substring(0,2).toUpperCase();};
+    const hl=(t,q)=>{if(!q)return t;const r=new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');return t.replace(r,'<mark style="background:#d1fae5;color:#065f46;border-radius:3px;padding:0 2px;">$1</mark>');};
+    const safe=s=>s.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    document.getElementById('results').innerHTML=list.map((p,i)=>`
+      <div class="patient-card" id="card-${p.id}" style="animation-delay:${i*0.03}s">
+        <div class="patient-header" onclick="togglePatient('${p.id}')">
+          <div class="avatar">${initials(p.name)}</div>
+          <div class="patient-name">${hl(p.name,query)}</div>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="patient-body" id="body-${p.id}">
+          <div id="content-${p.id}"><div style="padding:10px;color:var(--muted);font-size:0.85rem;">⏳ Cargando...</div></div>
+          <div class="body-actions">
+            <button class="btn-sm btn-sm-yellow" onclick="abrirModalDoc('${p.id}','${safe(p.name)}')">📝 Doc en carpeta principal</button>
+            <a href="https://drive.google.com/drive/folders/${p.id}" target="_blank" class="btn-sm btn-sm-outline">📁 Ver en Drive</a>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // ── EXPANDIR PACIENTE ─────────────────────────────────────
+  async function togglePatient(id) {
+    const card=document.getElementById('card-'+id);
+    if (card.classList.contains('open')) { card.classList.remove('open'); return; }
+    card.classList.add('open');
+    const content=document.getElementById('content-'+id);
+    if (content.dataset.loaded) return;
+    try {
+      const d1=await gGet("https://www.googleapis.com/drive/v3/files?q='"+id+"'+in+parents+and+mimeType='application/vnd.google-apps.folder'+and+trashed=false&fields=files(id,name)&orderBy=name&key="+API_KEY);
+      const d2=await gGet("https://www.googleapis.com/drive/v3/files?q='"+id+"'+in+parents+and+mimeType!='application/vnd.google-apps.folder'+and+trashed=false&fields=files(id,name,mimeType,webViewLink)&orderBy=name&key="+API_KEY);
+      const folders=d1.files||[], rootFiles=d2.files||[];
+      const safe=s=>s.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+
+      let html=rootFiles.map(f=>fileItemHtml(f)).join('');
+      html+=folders.map(f=>`
+        <div class="folder-block">
+          <div class="folder-row" id="fr-${f.id}" onclick="toggleFolder('${f.id}','${safe(f.name)}')">
+            <span>📁</span>
+            <span class="folder-name">${f.name}</span>
+            <span class="folder-chevron">▶</span>
+          </div>
+          <div class="folder-content" id="fc-${f.id}">
+            <div class="folder-actions">
+              <button class="btn-add-doc" onclick="event.stopPropagation();abrirModalDoc('${f.id}','${safe(f.name)}')">➕ Nuevo doc aquí</button>
+            </div>
+            <div class="files-inner" id="fi-${f.id}"><div class="empty-folder">⏳ Cargando...</div></div>
+          </div>
+        </div>
+      `).join('');
+
+      if (!html) html='<div style="padding:8px 4px;font-size:0.83rem;color:var(--muted);">Carpeta vacía</div>';
+      content.innerHTML=html;
+      content.dataset.loaded='1';
+    } catch(e) {
+      content.innerHTML='<div style="padding:8px;color:#991b1b;font-size:0.83rem;">❌ '+e.message+'</div>';
+    }
+  }
+
+  // ── EXPANDIR SUBCARPETA ───────────────────────────────────
+  async function toggleFolder(folderId, folderName) {
+    const row=document.getElementById('fr-'+folderId);
+    const fc=document.getElementById('fc-'+folderId);
+    const fi=document.getElementById('fi-'+folderId);
+    const isOpen=fc.classList.contains('open');
+
+    row.classList.toggle('open',!isOpen);
+    fc.classList.toggle('open',!isOpen);
+
+    if (isOpen || fi.dataset.loaded) return;
+
+    try {
+      const d=await gGet("https://www.googleapis.com/drive/v3/files?q='"+folderId+"'+in+parents+and+mimeType!='application/vnd.google-apps.folder'+and+trashed=false&fields=files(id,name,mimeType,webViewLink)&orderBy=name&key="+API_KEY);
+      const files=d.files||[];
+      fi.innerHTML=files.length?files.map(f=>fileItemHtml(f)).join(''):'<div class="empty-folder">Sin archivos — usa ➕ para crear uno</div>';
+      fi.dataset.loaded='1';
+    } catch(e) {
+      fi.innerHTML='<div style="padding:6px;color:#991b1b;font-size:0.82rem;">❌ Error</div>';
+    }
+  }
+
+  function fileItemHtml(f) {
+    return '<div class="file-item"><span>'+getIcon(f.mimeType)+'</span><a href="'+getEditUrl(f)+'" target="_blank">'+f.name+'</a></div>';
+  }
+
+  // ── CREAR PACIENTE ────────────────────────────────────────
+  function abrirModalNuevo() {
+    if (!oauthToken) { loginOAuth(); return; }
+    document.getElementById('nuevoNombre').value='';
+    document.getElementById('modalAlert').className='alert';
+    document.getElementById('modalNuevo').classList.add('open');
+    setTimeout(()=>document.getElementById('nuevoNombre').focus(),100);
+  }
+
+  async function crearPaciente() {
+    const nombre=document.getElementById('nuevoNombre').value.trim().toUpperCase();
+    if (!nombre) { showAlert('modalAlert','Escribe el nombre del paciente.','error'); return; }
+    showAlert('modalAlert','⏳ Creando carpeta...','info');
+    try {
+      const folder=await oPost('https://www.googleapis.com/drive/v3/files',{name:nombre,mimeType:'application/vnd.google-apps.folder',parents:[ROOT_ID]});
+      showAlert('modalAlert','⏳ Creando subcarpetas...','info');
+      for (const sub of SUBCARPETAS) {
+        await oPost('https://www.googleapis.com/drive/v3/files',{name:sub,mimeType:'application/vnd.google-apps.folder',parents:[folder.id]});
+      }
+      showAlert('modalAlert','✅ Paciente creado con todas las carpetas','success');
+      allPatients.push({id:folder.id,name:nombre});
+      allPatients.sort((a,b)=>a.name.localeCompare(b.name));
+      mostrarPacientes(allPatients);
+      setTimeout(()=>cerrarModal('modalNuevo'),1200);
+    } catch(e) {
+      if (e.message.includes('401')) { oauthToken=''; localStorage.removeItem('gd_oauth_token'); loginOAuth(); return; }
+      showAlert('modalAlert','❌ '+e.message,'error');
+    }
+  }
+
+  // ── CREAR DOC ─────────────────────────────────────────────
+  function abrirModalDoc(folderId, folderName) {
+    if (!oauthToken) { loginOAuth(); return; }
+    currentFolderId=folderId;
+    currentFolderName=folderName;
+    document.getElementById('nuevoDocNombre').value='';
+    document.getElementById('modalDocTxt').textContent='Se creará en: 📁 '+folderName;
+    document.getElementById('modalDocAlert').className='alert';
+    document.getElementById('modalDoc').classList.add('open');
+    setTimeout(()=>document.getElementById('nuevoDocNombre').focus(),100);
+  }
+
+  async function crearDoc() {
+    const nombre=document.getElementById('nuevoDocNombre').value.trim();
+    if (!nombre) { showAlert('modalDocAlert','Escribe el nombre del documento.','error'); return; }
+    showAlert('modalDocAlert','⏳ Creando...','info');
+    try {
+      const doc=await oPost('https://www.googleapis.com/drive/v3/files',{name:nombre,mimeType:'application/vnd.google-apps.document',parents:[currentFolderId]});
+      showAlert('modalDocAlert','✅ Listo, abriendo...','success');
+
+      // Agregar el archivo a la lista si la subcarpeta está abierta
+      const fi=document.getElementById('fi-'+currentFolderId);
+      if (fi) {
+        const newItem=document.createElement('div');
+        newItem.innerHTML=fileItemHtml({id:doc.id,name:nombre,mimeType:'application/vnd.google-apps.document'});
+        fi.appendChild(newItem.firstChild);
+        fi.dataset.loaded='1';
+        const empty=fi.querySelector('.empty-folder');
+        if (empty) empty.remove();
+      }
+
+      setTimeout(()=>{ cerrarModal('modalDoc'); window.open('https://docs.google.com/document/d/'+doc.id+'/edit','_blank'); },700);
+    } catch(e) {
+      if (e.message.includes('401')) { oauthToken=''; localStorage.removeItem('gd_oauth_token'); loginOAuth(); return; }
+      showAlert('modalDocAlert','❌ '+e.message,'error');
+    }
+  }
+
+  // ── HELPERS ───────────────────────────────────────────────
+  function cerrarModal(id) { document.getElementById(id).classList.remove('open'); }
+
+  async function gGet(url) {
+    const res=await fetch(url);
+    const data=await res.json();
+    if (data.error) throw new Error(data.error.message);
+    return data;
+  }
+
+  async function oPost(url,body) {
+    const res=await fetch(url,{method:'POST',headers:{'Authorization':'Bearer '+oauthToken,'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const data=await res.json();
+    if (data.error) throw new Error(data.error.message);
+    return data;
+  }
+
+  function getEditUrl(f) {
+    if (f.mimeType==='application/vnd.google-apps.document') return 'https://docs.google.com/document/d/'+f.id+'/edit';
+    if (f.mimeType==='application/vnd.google-apps.spreadsheet') return 'https://docs.google.com/spreadsheets/d/'+f.id+'/edit';
+    if (f.mimeType&&f.mimeType.includes('word')) return 'https://docs.google.com/document/d/'+f.id+'/edit';
+    return f.webViewLink||'https://drive.google.com/file/d/'+f.id+'/view';
+  }
+
+  function getIcon(m) {
+    if (!m) return '📎';
+    if (m.includes('document')) return '📝';
+    if (m.includes('spreadsheet')||m.includes('excel')) return '📊';
+    if (m.includes('pdf')) return '📄';
+    if (m.includes('image')) return '🖼️';
+    return '📎';
+  }
+
+  function showAlert(id,msg,type) { const b=document.getElementById(id); b.textContent=msg; b.className='alert '+type; }
+
+  document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',e=>{if(e.target===e.currentTarget)cerrarModal(e.currentTarget.id);}));
+
+  init();
+</script>
+</body>
+</html>

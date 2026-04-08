@@ -88,6 +88,8 @@
   .btn-sm-outline:hover{background:var(--accent);color:#fff;}
   .btn-sm-purple{background:#ede9fe;border:1.5px solid #a78bfa;color:#5b21b6;}
   .btn-sm-purple:hover{background:#5b21b6;color:#fff;border-color:#5b21b6;}
+  .btn-sm-red{background:#fee2e2;border:1.5px solid #fca5a5;color:#991b1b;}
+  .btn-sm-red:hover{background:#dc2626;color:#fff;border-color:#dc2626;}
   /* ── MISC ── */
   .spinner{display:inline-block;width:20px;height:20px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.7s linear infinite;}
   @keyframes spin{to{transform:rotate(360deg)}}
@@ -238,7 +240,19 @@
   </div>
 </div>
 
-<!-- MODAL NUEVO DOC -->
+<!-- MODAL ELIMINAR PACIENTE -->
+<div class="modal-overlay" id="modalEliminar">
+  <div class="modal">
+    <h3 style="color:#dc2626;">🗑️ Eliminar paciente</h3>
+    <p>¿Estás seguro que quieres eliminar la carpeta de <strong id="eliminarNombre"></strong>?</p>
+    <p style="margin-top:8px;font-size:0.82rem;color:#dc2626;background:#fee2e2;padding:10px;border-radius:8px;">⚠️ Esto moverá la carpeta a la papelera de Google Drive. Podrás recuperarla desde ahí si es necesario.</p>
+    <div class="alert" id="modalEliminarAlert"></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="cerrarModal('modalEliminar')">Cancelar</button>
+      <button class="btn" style="background:#dc2626;" onclick="eliminarPaciente()">🗑️ Sí, eliminar</button>
+    </div>
+  </div>
+</div>
 <div class="modal-overlay" id="modalDoc">
   <div class="modal">
     <h3>📝 Nuevo documento</h3>
@@ -496,6 +510,7 @@
             <button class="btn-sm btn-sm-purple" onclick="abrirFormPanel('${p.id}','${safe(p.name)}')">📋 Formularios clínicos</button>
             <button class="btn-sm btn-sm-yellow" onclick="abrirModalDoc('${p.id}','${safe(p.name)}')">📝 Nuevo doc</button>
             <a href="https://drive.google.com/drive/folders/${p.id}" target="_blank" class="btn-sm btn-sm-outline">📁 Ver en Drive</a>
+            <button class="btn-sm btn-sm-red" onclick="confirmarEliminar('${p.id}','${safe(p.name)}')">🗑️ Eliminar</button>
           </div>
         </div>
       </div>
@@ -670,6 +685,38 @@
     }catch(e){
       if(e.message.includes('401')){cfg.token='';loginOAuth();return;}
       showAlert(alertId,'❌ Error: '+e.message,'error');
+    }
+  }
+
+  // ── ELIMINAR PACIENTE ─────────────────────────────────────
+  let eliminarId='', eliminarNombreVal='';
+  function confirmarEliminar(id,nombre){
+    if(!cfg.token){loginOAuth();return;}
+    eliminarId=id; eliminarNombreVal=nombre;
+    document.getElementById('eliminarNombre').textContent=nombre;
+    document.getElementById('modalEliminarAlert').className='alert';
+    document.getElementById('modalEliminar').classList.add('open');
+  }
+  async function eliminarPaciente(){
+    if(!eliminarId)return;
+    showAlert('modalEliminarAlert','⏳ Eliminando...','info');
+    try{
+      const res=await fetch('https://www.googleapis.com/drive/v3/files/'+eliminarId,{
+        method:'DELETE',
+        headers:{'Authorization':'Bearer '+cfg.token}
+      });
+      if(res.status===204||res.ok){
+        showAlert('modalEliminarAlert','✅ Carpeta movida a la papelera','success');
+        allPatients=allPatients.filter(p=>p.id!==eliminarId);
+        mostrarPacientes(allPatients);
+        setTimeout(()=>cerrarModal('modalEliminar'),1000);
+      } else {
+        const d=await res.json();
+        throw new Error(d.error?.message||'Error al eliminar');
+      }
+    }catch(e){
+      if(e.message.includes('401')){cfg.token='';loginOAuth();return;}
+      showAlert('modalEliminarAlert','❌ '+e.message,'error');
     }
   }
 

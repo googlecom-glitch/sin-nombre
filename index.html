@@ -434,17 +434,62 @@
     if(hash&&hash.includes('access_token')){
       const p=new URLSearchParams(hash.substring(1));
       const t=p.get('access_token');
-      if(t){cfg.token=t;window.history.replaceState({},document.title,window.location.pathname);}
+      if(t){
+        cfg.token=t;
+        // Guardar tiempo de expiración (1 hora)
+        localStorage.setItem('gd_oauth_expiry', Date.now() + 3500*1000);
+        window.history.replaceState({},document.title,window.location.pathname);
+        // Si venía del panel de formularios, reabrirlo después de cargar
+        const ret=localStorage.getItem('oauth_return');
+        if(ret==='formPanel') localStorage.setItem('reopen_form','1');
+        localStorage.removeItem('oauth_return');
+      }
     }
     if(cfg.apiKey) document.getElementById('apiKeyInput').value=cfg.apiKey;
     if(cfg.rootId) document.getElementById('folderIdInput').value=cfg.rootId;
     if(cfg.token){document.getElementById('oauthBanner').style.display='none';document.getElementById('btnOauth').style.display='none';}
-    if(cfg.apiKey&&cfg.rootId){document.getElementById('setupCard').style.display='none';document.getElementById('headerSub').textContent='📂 EXPEDIENTES DE PACIENTES';cargarPacientes();}
+    if(cfg.apiKey&&cfg.rootId){
+      document.getElementById('setupCard').style.display='none';
+      document.getElementById('headerSub').textContent='📂 EXPEDIENTES DE PACIENTES';
+      cargarPacientes().then(()=>{
+        // Si volvió de un re-login para formularios, reabrir el panel
+        if(localStorage.getItem('reopen_form')){
+          localStorage.removeItem('reopen_form');
+          // Pequeño delay para que carguen los pacientes
+          setTimeout(()=>{
+            const banner=document.getElementById('oauthBanner');
+            if(banner) banner.style.display='none';
+            showTokenExpiry();
+          },500);
+        }
+      });
+    }
     // Init asistencia rows
     for(let i=0;i<5;i++) addAsRow();
+    // Verificar si el token expirará pronto (menos de 10 min)
+    checkTokenExpiry();
   }
 
+  function checkTokenExpiry(){
+    const expiry=localStorage.getItem('gd_oauth_expiry');
+    if(!expiry||!cfg.token) return;
+    const remaining=parseInt(expiry)-Date.now();
+    if(remaining<600000&&remaining>0){
+      // Menos de 10 min — mostrar aviso
+      setTimeout(()=>{
+        const banner=document.getElementById('oauthBanner');
+        if(banner){banner.style.display='flex';banner.querySelector('p').textContent='⏰ Tu sesión expirará pronto. Haz clic para renovar.';}
+        document.getElementById('btnOauth').style.display='flex';
+      },remaining-60000);
+    }
+    if(remaining<=0){cfg.token='';}
+  }
+
+  function showTokenExpiry(){}
+
   function loginOAuth(){
+    // Guardar página actual para volver después del login
+    localStorage.setItem('oauth_return','formPanel');
     const r=window.location.href.split('#')[0].split('?')[0];
     window.location.href='https://accounts.google.com/o/oauth2/v2/auth?client_id='+encodeURIComponent(CLIENT_ID)+'&redirect_uri='+encodeURIComponent(r)+'&response_type=token&scope='+encodeURIComponent('https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/documents')+'&prompt=select_account';
   }
@@ -683,7 +728,12 @@
       showAlert(alertId,'✅ Guardado. Abriendo documento...','success');
       setTimeout(()=>window.open('https://docs.google.com/document/d/'+doc.id+'/edit','_blank'),800);
     }catch(e){
-      if(e.message.includes('401')){cfg.token='';loginOAuth();return;}
+      if(e.message.includes('401')||e.message.includes('authentication')||e.message.includes('credential')){
+        cfg.token='';
+        showAlert(alertId,'⚠️ Sesión expirada. Iniciando sesión de nuevo...','info');
+        setTimeout(()=>loginOAuth(),1200);
+        return;
+      }
       showAlert(alertId,'❌ Error: '+e.message,'error');
     }
   }

@@ -3,19 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Expedientes de Pacientes</title>
+<title>Expedientes de Pacientes — Liliput</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg:#f5f2ee; --surface:#fff; --accent:#2d6a4f; --accent2:#74c69d;
-    --text:#1a1a1a; --muted:#6b7280; --border:#e5e0d8;
-    --shadow:0 4px 24px rgba(0,0,0,0.07); --radius:16px;
-  }
+  :root{--bg:#f5f2ee;--surface:#fff;--accent:#2d6a4f;--accent2:#74c69d;--text:#1a1a1a;--muted:#6b7280;--border:#e5e0d8;--shadow:0 4px 24px rgba(0,0,0,0.07);--radius:16px;}
   *{box-sizing:border-box;margin:0;padding:0;}
   body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+  /* ── HEADER ── */
   header{background:var(--accent);padding:22px 32px;position:relative;overflow:hidden;}
   header::before{content:'';position:absolute;width:300px;height:300px;background:rgba(116,198,157,0.15);border-radius:50%;top:-130px;right:-60px;}
-  .header-inner{position:relative;z-index:1;max-width:800px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .header-inner{position:relative;z-index:1;max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
   .logo-row{display:flex;align-items:center;gap:10px;}
   .logo-icon{width:38px;height:38px;background:var(--accent2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;}
   .header-title{font-family:'DM Serif Display',serif;font-size:1.5rem;color:#fff;font-weight:400;}
@@ -25,7 +22,9 @@
   .btn-hdr:hover{background:rgba(255,255,255,0.25);}
   .btn-hdr.green{background:var(--accent2);color:var(--accent);border-color:var(--accent2);font-weight:700;}
   .btn-hdr.green:hover{background:#5db88a;color:#fff;}
-  main{max-width:800px;margin:0 auto;padding:24px 16px 60px;}
+  /* ── MAIN ── */
+  main{max-width:900px;margin:0 auto;padding:24px 16px 60px;}
+  /* ── SETUP ── */
   .setup-card{background:var(--surface);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:20px;}
   .setup-card h2{font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--accent);margin-bottom:6px;}
   .setup-card p{font-size:0.85rem;color:var(--muted);margin-bottom:16px;line-height:1.6;}
@@ -43,12 +42,14 @@
   .oauth-banner p{font-size:0.85rem;color:#92400e;flex:1;}
   .btn-oauth{padding:9px 16px;background:#f59e0b;border:none;color:#fff;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:700;cursor:pointer;white-space:nowrap;}
   .btn-oauth:hover{background:#d97706;}
+  /* ── TOOLBAR ── */
   .toolbar{display:flex;gap:10px;align-items:center;margin-bottom:18px;flex-wrap:wrap;}
   .search-wrap{position:relative;flex:1;min-width:180px;}
   .search-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;}
   #searchInput{width:100%;padding:12px 14px 12px 40px;border:1.5px solid var(--border);border-radius:12px;font-size:0.93rem;background:var(--surface);box-shadow:var(--shadow);margin-bottom:0;}
   .btn-new{padding:11px 16px;background:var(--accent2);border:none;color:var(--accent);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:700;cursor:pointer;white-space:nowrap;transition:all 0.2s;box-shadow:var(--shadow);}
   .btn-new:hover{background:var(--accent);color:#fff;}
+  /* ── PATIENT CARDS ── */
   #results{display:flex;flex-direction:column;gap:10px;}
   .patient-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;animation:fadeUp 0.2s ease both;transition:border-color 0.2s;}
   .patient-card:hover{border-color:var(--accent2);}
@@ -69,9 +70,11 @@
   .folder-row.open .folder-chevron{transform:rotate(90deg);}
   .folder-content{display:none;padding-left:22px;margin-top:2px;}
   .folder-content.open{display:block;}
-  .folder-actions{display:flex;gap:6px;padding:6px 8px;margin-bottom:4px;}
+  .folder-actions{display:flex;gap:6px;padding:6px 8px;margin-bottom:4px;flex-wrap:wrap;}
   .btn-add-doc{padding:5px 11px;background:#e8f5ee;border:1.5px solid var(--accent2);color:var(--accent);border-radius:7px;font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:700;cursor:pointer;transition:all 0.15s;display:inline-flex;align-items:center;gap:4px;}
   .btn-add-doc:hover{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .btn-form{padding:5px 11px;background:#ede9fe;border:1.5px solid #a78bfa;color:#5b21b6;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:700;cursor:pointer;transition:all 0.15s;display:inline-flex;align-items:center;gap:4px;}
+  .btn-form:hover{background:#5b21b6;color:#fff;border-color:#5b21b6;}
   .files-inner{display:flex;flex-direction:column;gap:3px;}
   .file-item{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:8px;transition:background 0.15s;}
   .file-item:hover{background:#d1fae5;}
@@ -83,6 +86,9 @@
   .btn-sm-yellow:hover{background:#f59e0b;color:#fff;border-color:#f59e0b;}
   .btn-sm-outline{background:transparent;border:1.5px solid var(--accent);color:var(--accent);}
   .btn-sm-outline:hover{background:var(--accent);color:#fff;}
+  .btn-sm-purple{background:#ede9fe;border:1.5px solid #a78bfa;color:#5b21b6;}
+  .btn-sm-purple:hover{background:#5b21b6;color:#fff;border-color:#5b21b6;}
+  /* ── MISC ── */
   .spinner{display:inline-block;width:20px;height:20px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.7s linear infinite;}
   @keyframes spin{to{transform:rotate(360deg)}}
   .state-msg{text-align:center;padding:40px 20px;color:var(--muted);font-size:0.9rem;}
@@ -90,7 +96,7 @@
   .state-msg strong{color:var(--text);display:block;font-size:1rem;margin-bottom:4px;}
   .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:100;align-items:center;justify-content:center;padding:16px;}
   .modal-overlay.open{display:flex;}
-  .modal{background:var(--surface);border-radius:var(--radius);padding:24px;max-width:400px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.2);animation:fadeUp 0.2s ease;}
+  .modal{background:var(--surface);border-radius:var(--radius);padding:24px;max-width:420px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.2);animation:fadeUp 0.2s ease;}
   .modal h3{font-family:'DM Serif Display',serif;font-size:1.15rem;color:var(--accent);margin-bottom:6px;}
   .modal p{font-size:0.84rem;color:var(--muted);margin-bottom:14px;}
   .modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:14px;}
@@ -102,9 +108,63 @@
   .step a{color:var(--accent);}
   code{background:#f0f0f0;padding:1px 5px;border-radius:4px;font-size:0.8rem;}
   .empty-folder{padding:5px 8px;font-size:0.8rem;color:var(--muted);}
+
+  /* ══════════════════════════════════════════
+     PANTALLA DE FORMULARIOS (panel deslizante)
+  ══════════════════════════════════════════ */
+  #formPanel{position:fixed;inset:0;background:var(--bg);z-index:200;overflow-y:auto;display:none;animation:slideIn 0.25s ease;}
+  #formPanel.open{display:block;}
+  @keyframes slideIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+  .form-header{background:var(--accent);padding:18px 24px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10;}
+  .form-header-info{flex:1;}
+  .form-header-title{font-family:'DM Serif Display',serif;font-size:1.2rem;color:#fff;font-weight:400;}
+  .form-header-sub{font-size:0.78rem;color:rgba(255,255,255,0.7);}
+  .btn-close-panel{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;padding:7px 14px;border-radius:20px;font-size:0.8rem;cursor:pointer;}
+  .btn-close-panel:hover{background:rgba(255,255,255,0.25);}
+  .form-body{max-width:860px;margin:0 auto;padding:24px 16px 60px;}
+  /* tabs */
+  .form-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+  .ftab{padding:9px 16px;border:1.5px solid var(--border);border-radius:10px;background:var(--surface);font-family:'DM Sans',sans-serif;font-size:0.84rem;font-weight:600;cursor:pointer;color:var(--muted);transition:all 0.2s;}
+  .ftab:hover{border-color:var(--accent2);color:var(--accent);}
+  .ftab.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+  /* form sections */
+  .fform{display:none;background:var(--surface);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);border:1px solid var(--border);}
+  .fform.active{display:block;}
+  .fform-title{font-family:'DM Serif Display',serif;font-size:1.15rem;color:var(--accent);margin-bottom:4px;}
+  .fform-sub{font-size:0.82rem;color:var(--muted);margin-bottom:18px;}
+  .sec-title{font-family:'DM Serif Display',serif;font-size:0.95rem;color:var(--accent);margin:20px 0 10px;padding-bottom:5px;border-bottom:2px solid var(--accent2);}
+  .fg{display:grid;gap:10px;margin-bottom:10px;}
+  .fg.c2{grid-template-columns:1fr 1fr;}
+  .fg.c3{grid-template-columns:1fr 1fr 1fr;}
+  .fg.c4{grid-template-columns:1fr 1fr 1fr 1fr;}
+  @media(max-width:600px){.fg.c2,.fg.c3,.fg.c4{grid-template-columns:1fr;}}
+  .ff{display:flex;flex-direction:column;gap:3px;}
+  .ff label{font-size:0.76rem;font-weight:600;color:var(--muted);}
+  .ff input,.ff textarea,.ff select{padding:8px 11px;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.86rem;background:var(--bg);color:var(--text);outline:none;transition:border-color 0.2s;width:100%;}
+  .ff input:focus,.ff textarea:focus,.ff select:focus{border-color:var(--accent);background:#fff;}
+  .ff textarea{resize:vertical;min-height:75px;}
+  /* checks */
+  .cg{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:4px;}
+  .ci{display:flex;align-items:center;gap:4px;font-size:0.81rem;color:var(--text);cursor:pointer;}
+  .ci input[type=checkbox]{width:14px;height:14px;accent-color:var(--accent);cursor:pointer;}
+  /* tabla */
+  .tw{overflow-x:auto;margin-bottom:10px;}
+  table{width:100%;border-collapse:collapse;font-size:0.82rem;}
+  th{background:var(--accent);color:#fff;padding:7px 9px;text-align:left;font-weight:600;}
+  td{padding:6px 9px;border-bottom:1px solid var(--border);}
+  tr:nth-child(even) td{background:#f9f8f6;}
+  .ti{width:100%;border:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:0.82rem;padding:2px 3px;outline:none;}
+  .ti:focus{background:#e8f5ee;border-radius:4px;}
+  .btn-add-r{padding:6px 13px;background:#e8f5ee;border:1.5px solid var(--accent2);color:var(--accent);border-radius:7px;font-size:0.78rem;font-weight:700;cursor:pointer;margin-top:6px;}
+  .btn-add-r:hover{background:var(--accent);color:#fff;}
+  /* actions */
+  .factions{display:flex;gap:10px;margin-top:24px;padding-top:16px;border-top:1px solid var(--border);justify-content:flex-end;flex-wrap:wrap;}
+  .btn-sec{background:var(--bg);border:1.5px solid var(--border);color:var(--muted);padding:10px 18px;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:0.88rem;cursor:pointer;}
+  .btn-sec:hover{border-color:var(--accent);color:var(--accent);}
 </style>
 </head>
 <body>
+
 <header>
   <div class="header-inner">
     <div>
@@ -130,7 +190,7 @@
     <label>🔑 API Key de Google</label>
     <input type="password" id="apiKeyInput" placeholder="AIzaSy...">
     <label>📂 ID de la carpeta "EXPEDIENTES DE PACIENTES"</label>
-    <input type="text" id="folderIdInput" placeholder="1P7OEUn2JW9zBNrCA0O9H_HtCWYEqo8mY">
+    <input type="text" id="folderIdInput" placeholder="1AVIrYnEw7YL_2qi2kqnYckRobpeUsQl9">
     <div class="btn-row">
       <button class="btn" onclick="guardarYConectar()">💾 Guardar y conectar</button>
       <button class="btn" style="background:#6b7280;" onclick="toggleSetup()">Cerrar</button>
@@ -141,7 +201,7 @@
     <div class="steps">
       <div class="step"><div class="step-num">1</div><span>Abre <a href="https://drive.google.com" target="_blank">drive.google.com</a> y entra a <strong>EXPEDIENTES DE PACIENTES</strong></span></div>
       <div class="step"><div class="step-num">2</div><span>Mira el URL: <code>drive.google.com/drive/folders/<strong>ESTE_ES_EL_ID</strong></code></span></div>
-      <div class="step"><div class="step-num">3</div><span>Copia ese código y pégalo arriba. La carpeta debe ser pública.</span></div>
+      <div class="step"><div class="step-num">3</div><span>Copia solo el código, sin el <code>?usp=drive_link</code> del final.</span></div>
     </div>
   </div>
 
@@ -159,11 +219,7 @@
   </div>
 
   <div id="results">
-    <div class="state-msg">
-      <div class="big">🩺</div>
-      <strong>Bienvenido</strong>
-      Configura tu Google Drive arriba para comenzar
-    </div>
+    <div class="state-msg"><div class="big">🩺</div><strong>Bienvenido</strong>Configura tu Google Drive arriba para comenzar</div>
   </div>
 </main>
 
@@ -188,7 +244,7 @@
     <h3>📝 Nuevo documento</h3>
     <p id="modalDocTxt"></p>
     <label>Nombre del documento</label>
-    <input type="text" id="nuevoDocNombre" placeholder="Ej: Ficha de seguimiento Marzo 2026">
+    <input type="text" id="nuevoDocNombre" placeholder="Ej: Informe Marzo 2026">
     <div class="alert" id="modalDocAlert"></div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="cerrarModal('modalDoc')">Cancelar</button>
@@ -197,145 +253,248 @@
   </div>
 </div>
 
+<!-- ══════════════════════════════════════════════
+     PANEL DE FORMULARIOS CLÍNICOS
+══════════════════════════════════════════════ -->
+<div id="formPanel">
+  <div class="form-header">
+    <div class="form-header-info">
+      <div class="form-header-title">📋 Formularios Clínicos</div>
+      <div class="form-header-sub" id="formPanelSub">Paciente</div>
+    </div>
+    <button class="btn-close-panel" onclick="cerrarFormPanel()">✕ Cerrar</button>
+  </div>
+  <div class="form-body">
+    <div class="form-tabs">
+      <button class="ftab active" onclick="mostrarFForm('anamnesis',this)">📝 Anamnesis</button>
+      <button class="ftab" onclick="mostrarFForm('filiacion',this)">👤 Datos de Filiación</button>
+      <button class="ftab" onclick="mostrarFForm('seguimiento',this)">📊 Ficha de Seguimiento</button>
+      <button class="ftab" onclick="mostrarFForm('asistencia',this)">✅ Asistencia</button>
+    </div>
+
+    <!-- ANAMNESIS -->
+    <div class="fform active" id="fform-anamnesis">
+      <div class="fform-title">Guía de Anamnesis Psicológica Infantil</div>
+      <div class="fform-sub">Complete los campos y guarde. El documento se creará en la carpeta ANAMNESIS del paciente.</div>
+      <div class="sec-title">I. Datos de Identificación</div>
+      <div class="fg c2"><div class="ff"><label>Apellidos y Nombres</label><input type="text" id="a_nombre"></div><div class="ff"><label>Fecha de Nacimiento</label><input type="date" id="a_fnac"></div></div>
+      <div class="fg c4"><div class="ff"><label>Edad</label><input type="text" id="a_edad"></div><div class="ff"><label>Sexo</label><select id="a_sexo"><option value="">--</option><option>Masculino</option><option>Femenino</option></select></div><div class="ff"><label>Lugar de Nacimiento</label><input type="text" id="a_lugar_nac"></div><div class="ff"><label>Lugar en familia</label><input type="text" id="a_lugar_familia"></div></div>
+      <div class="fg c2"><div class="ff"><label>Religión</label><input type="text" id="a_religion"></div><div class="ff"><label>Institución Educativa</label><input type="text" id="a_ie"></div></div>
+      <div class="sec-title">Datos del Padre</div>
+      <div class="fg c2"><div class="ff"><label>Apellidos y Nombres</label><input type="text" id="a_padre_nombre"></div><div class="ff"><label>Grupo Sanguíneo</label><input type="text" id="a_padre_gs"></div></div>
+      <div class="fg c3"><div class="ff"><label>Edad</label><input type="text" id="a_padre_edad"></div><div class="ff"><label>Instrucción</label><input type="text" id="a_padre_instruccion"></div><div class="ff"><label>Ocupación</label><input type="text" id="a_padre_ocupacion"></div></div>
+      <div class="sec-title">Datos de la Madre</div>
+      <div class="fg c2"><div class="ff"><label>Apellidos y Nombres</label><input type="text" id="a_madre_nombre"></div><div class="ff"><label>Grupo Sanguíneo</label><input type="text" id="a_madre_gs"></div></div>
+      <div class="fg c3"><div class="ff"><label>Edad</label><input type="text" id="a_madre_edad"></div><div class="ff"><label>Instrucción</label><input type="text" id="a_madre_instruccion"></div><div class="ff"><label>Ocupación</label><input type="text" id="a_madre_ocupacion"></div></div>
+      <div class="sec-title">Familiares que viven con el niño</div>
+      <div class="tw"><table id="tbl_fam"><thead><tr><th>Parentesco</th><th>Edad</th><th>Instrucción</th><th>Ocupación</th></tr></thead><tbody><tr><td><input class="ti"></td><td><input class="ti"></td><td><input class="ti"></td><td><input class="ti"></td></tr><tr><td><input class="ti"></td><td><input class="ti"></td><td><input class="ti"></td><td><input class="ti"></td></tr></tbody></table></div>
+      <button class="btn-add-r" onclick="addTRow('tbl_fam',4)">+ Fila</button>
+      <div class="sec-title">II. Problema Actual</div>
+      <div class="ff"><label>Descripción del motivo de consulta</label><textarea id="a_problema" rows="5"></textarea></div>
+      <div class="sec-title">III. Embarazo y Parto</div>
+      <div class="ff"><label>Condiciones</label><textarea id="a_embarazo" rows="4"></textarea></div>
+      <div class="fg c2" style="margin-top:8px;"><div class="ff"><label>Estado psicológico de la madre</label><textarea id="a_madre_estado" rows="3"></textarea></div><div class="ff"><label>Actitud del padre</label><textarea id="a_padre_actitud" rows="3"></textarea></div></div>
+      <div class="sec-title">Desarrollo Neuromuscular</div>
+      <div class="fg c3"><div class="ff"><label>Sostuvo cabeza (mes)</label><input type="text" id="a_cabeza"></div><div class="ff"><label>Se sentó (mes)</label><input type="text" id="a_sento"></div><div class="ff"><label>Caminó (mes/años)</label><input type="text" id="a_camino"></div></div>
+      <div class="fg c3"><div class="ff"><label>Comió solo (edad)</label><input type="text" id="a_comio"></div><div class="ff"><label>Control esfínteres</label><input type="text" id="a_esfinteres"></div><div class="ff"><label>Observaciones motrices</label><input type="text" id="a_motor_obs"></div></div>
+      <div class="sec-title">Desarrollo del Lenguaje</div>
+      <div class="fg c3"><div class="ff"><label>Primeras palabras (edad)</label><input type="text" id="a_palabras"></div><div class="ff"><label>Primeras frases (edad)</label><input type="text" id="a_frases"></div><div class="ff"><label>Lenguaje actual</label><input type="text" id="a_lenguaje_actual"></div></div>
+      <div class="ff"><label>Observaciones</label><textarea id="a_lenguaje_obs" rows="3"></textarea></div>
+      <div class="fg c2" style="margin-top:10px;"><div class="ff"><label>Visión</label><textarea id="a_vision" rows="2"></textarea></div><div class="ff"><label>Audición</label><textarea id="a_audicion" rows="2"></textarea></div></div>
+      <div class="sec-title">Historia Escolar</div>
+      <div class="ff"><textarea id="a_escolar" rows="4"></textarea></div>
+      <div class="sec-title">Juegos y Socialización</div>
+      <div class="ff"><textarea id="a_juegos" rows="3"></textarea></div>
+      <div class="sec-title">IV. Historia Familiar</div>
+      <div class="ff"><textarea id="a_familia" rows="4"></textarea></div>
+      <div class="sec-title">V. Antecedentes</div>
+      <div class="ff"><textarea id="a_antecedentes" rows="3"></textarea></div>
+      <div class="sec-title">Conductas</div>
+      <div style="font-size:0.78rem;font-weight:600;color:var(--muted);margin-bottom:5px;">Emocionales</div>
+      <div class="cg" id="cg_emocional">
+        <label class="ci"><input type="checkbox" value="Muy Tranquilo"> Muy Tranquilo</label><label class="ci"><input type="checkbox" value="Tranquilo"> Tranquilo</label><label class="ci"><input type="checkbox" value="Inquieto"> Inquieto</label><label class="ci"><input type="checkbox" value="Ansioso"> Ansioso</label><label class="ci"><input type="checkbox" value="Autoritario"> Autoritario</label><label class="ci"><input type="checkbox" value="Emotivo"> Emotivo</label><label class="ci"><input type="checkbox" value="Lábil"> Lábil</label><label class="ci"><input type="checkbox" value="Estable"> Estable</label><label class="ci"><input type="checkbox" value="Seguro"> Seguro</label><label class="ci"><input type="checkbox" value="Desconfiado"> Desconfiado</label><label class="ci"><input type="checkbox" value="Alegre"> Alegre</label><label class="ci"><input type="checkbox" value="Triste"> Triste</label><label class="ci"><input type="checkbox" value="Irritable"> Irritable</label><label class="ci"><input type="checkbox" value="Manipulador"> Manipulador</label><label class="ci"><input type="checkbox" value="Miedoso"> Miedoso</label>
+      </div>
+      <div style="font-size:0.78rem;font-weight:600;color:var(--muted);margin:10px 0 5px;">Sociales</div>
+      <div class="cg" id="cg_social">
+        <label class="ci"><input type="checkbox" value="Obediente"> Obediente</label><label class="ci"><input type="checkbox" value="Desobediente"> Desobediente</label><label class="ci"><input type="checkbox" value="Dependiente"> Dependiente</label><label class="ci"><input type="checkbox" value="Independiente"> Independiente</label><label class="ci"><input type="checkbox" value="Comunicativo"> Comunicativo</label><label class="ci"><input type="checkbox" value="Introvertido"> Introvertido</label><label class="ci"><input type="checkbox" value="Extrovertido"> Extrovertido</label><label class="ci"><input type="checkbox" value="Retraído"> Retraído</label><label class="ci"><input type="checkbox" value="Sociable"> Sociable</label><label class="ci"><input type="checkbox" value="Agresivo"> Agresivo</label><label class="ci"><input type="checkbox" value="Cooperador"> Cooperador</label>
+      </div>
+      <div style="font-size:0.78rem;font-weight:600;color:var(--muted);margin:10px 0 5px;">Sintomatología</div>
+      <div class="cg" id="cg_sint">
+        <label class="ci"><input type="checkbox" value="Se come las uñas"> Se come las uñas</label><label class="ci"><input type="checkbox" value="Dice malas palabras"> Dice malas palabras</label><label class="ci"><input type="checkbox" value="Presenta Tics"> Presenta Tics</label><label class="ci"><input type="checkbox" value="Le transpiran las manos"> Le transpiran las manos</label><label class="ci"><input type="checkbox" value="Se distrae fácilmente"> Se distrae fácilmente</label><label class="ci"><input type="checkbox" value="No retiene lo que aprende"> No retiene lo que aprende</label><label class="ci"><input type="checkbox" value="Se confunde con facilidad"> Se confunde con facilidad</label>
+      </div>
+      <div style="font-size:0.78rem;font-weight:600;color:var(--muted);margin:10px 0 5px;">Motoras</div>
+      <div class="cg" id="cg_motor">
+        <label class="ci"><input type="checkbox" value="Se cae constantemente"> Se cae constantemente</label><label class="ci"><input type="checkbox" value="Se ensucia con frecuencia"> Se ensucia con frecuencia</label><label class="ci"><input type="checkbox" value="Babea"> Babea</label><label class="ci"><input type="checkbox" value="Torpeza al manipular objetos"> Torpeza al manipular objetos</label><label class="ci"><input type="checkbox" value="Presenta sobrepeso"> Presenta sobrepeso</label>
+      </div>
+      <div class="sec-title">Comunicación</div>
+      <div class="fg c2">
+        <div class="ff"><label>¿Cómo se comunica?</label><div class="cg"><label class="ci"><input type="checkbox" id="com_g" value="Gestos"> Gestos</label><label class="ci"><input type="checkbox" id="com_p" value="Palabras"> Palabras</label><label class="ci"><input type="checkbox" id="com_f" value="Frases"> Frases</label></div></div>
+        <div class="ff"><label>¿Comprende órdenes?</label><div class="cg"><label class="ci"><input type="checkbox" id="ord_s" value="Simples"> Simples</label><label class="ci"><input type="checkbox" id="ord_c" value="Complejas"> Complejas</label></div></div>
+      </div>
+      <div class="fg c2" style="margin-top:8px;">
+        <div class="ff"><label>¿Narra acontecimientos?</label><div class="cg"><label class="ci"><input type="checkbox" id="nar_m" value="Mediatos"> Mediatos</label><label class="ci"><input type="checkbox" id="nar_i" value="Inmediatos"> Inmediatos</label></div></div>
+        <div class="ff"><label>Autoestima percibida</label><input type="text" id="a_autoestima"></div>
+      </div>
+      <div class="fg c2" style="margin-top:12px;"><div class="ff"><label>Fecha de entrevista</label><input type="date" id="a_fecha_ent"></div><div class="ff"><label>Especialista Responsable</label><input type="text" id="a_especialista"></div></div>
+      <div class="alert" id="alert_a"></div>
+      <div class="factions"><button class="btn-sec" onclick="limpiarFForm('anamnesis')">🗑️ Limpiar</button><button class="btn" onclick="guardarFForm('anamnesis')">💾 Guardar en Drive</button></div>
+    </div>
+
+    <!-- DATOS DE FILIACIÓN -->
+    <div class="fform" id="fform-filiacion">
+      <div class="fform-title">Datos de Filiación</div>
+      <div class="fform-sub">Información básica de identificación del paciente.</div>
+      <div class="sec-title">Datos del Paciente</div>
+      <div class="fg c2"><div class="ff"><label>Apellidos y Nombres</label><input type="text" id="f_nombre"></div><div class="ff"><label>Fecha de Nacimiento</label><input type="date" id="f_fnac"></div></div>
+      <div class="fg c4"><div class="ff"><label>Edad</label><input type="text" id="f_edad"></div><div class="ff"><label>Sexo</label><select id="f_sexo"><option value="">--</option><option>Masculino</option><option>Femenino</option></select></div><div class="ff"><label>DNI</label><input type="text" id="f_dni"></div><div class="ff"><label>Grupo Sanguíneo</label><input type="text" id="f_gs"></div></div>
+      <div class="fg c2"><div class="ff"><label>Lugar de Nacimiento</label><input type="text" id="f_lugar_nac"></div><div class="ff"><label>Dirección</label><input type="text" id="f_direccion"></div></div>
+      <div class="fg c2"><div class="ff"><label>Institución Educativa</label><input type="text" id="f_ie"></div><div class="ff"><label>Grado / Sección</label><input type="text" id="f_grado"></div></div>
+      <div class="fg c2"><div class="ff"><label>Motivo de Consulta</label><textarea id="f_motivo" rows="3"></textarea></div><div class="ff"><label>Derivado por</label><input type="text" id="f_derivado"></div></div>
+      <div class="sec-title">Datos del Padre</div>
+      <div class="fg c2"><div class="ff"><label>Apellidos y Nombres</label><input type="text" id="f_padre_nombre"></div><div class="ff"><label>DNI</label><input type="text" id="f_padre_dni"></div></div>
+      <div class="fg c3"><div class="ff"><label>Edad</label><input type="text" id="f_padre_edad"></div><div class="ff"><label>Ocupación</label><input type="text" id="f_padre_ocup"></div><div class="ff"><label>Teléfono</label><input type="text" id="f_padre_tel"></div></div>
+      <div class="sec-title">Datos de la Madre</div>
+      <div class="fg c2"><div class="ff"><label>Apellidos y Nombres</label><input type="text" id="f_madre_nombre"></div><div class="ff"><label>DNI</label><input type="text" id="f_madre_dni"></div></div>
+      <div class="fg c3"><div class="ff"><label>Edad</label><input type="text" id="f_madre_edad"></div><div class="ff"><label>Ocupación</label><input type="text" id="f_madre_ocup"></div><div class="ff"><label>Teléfono</label><input type="text" id="f_madre_tel"></div></div>
+      <div class="fg c2" style="margin-top:12px;"><div class="ff"><label>Fecha de evaluación</label><input type="date" id="f_fecha"></div><div class="ff"><label>Especialista</label><input type="text" id="f_especialista"></div></div>
+      <div class="alert" id="alert_f"></div>
+      <div class="factions"><button class="btn-sec" onclick="limpiarFForm('filiacion')">🗑️ Limpiar</button><button class="btn" onclick="guardarFForm('filiacion')">💾 Guardar en Drive</button></div>
+    </div>
+
+    <!-- FICHA DE SEGUIMIENTO -->
+    <div class="fform" id="fform-seguimiento">
+      <div class="fform-title">Ficha de Seguimiento por Sesión</div>
+      <div class="fform-sub">Registro de evolución y avances por sesión.</div>
+      <div class="fg c2"><div class="ff"><label>Fecha de sesión</label><input type="date" id="s_fecha"></div><div class="ff"><label>Número de sesión</label><input type="text" id="s_numero" placeholder="Ej: Sesión 5"></div></div>
+      <div class="fg c2"><div class="ff"><label>Especialista</label><input type="text" id="s_especialista"></div><div class="ff"><label>Duración (minutos)</label><input type="text" id="s_duracion"></div></div>
+      <div class="sec-title">Objetivos de la Sesión</div>
+      <div class="ff"><textarea id="s_objetivos" rows="3"></textarea></div>
+      <div class="sec-title">Desarrollo de la Sesión</div>
+      <div class="ff"><textarea id="s_actividades" rows="4"></textarea></div>
+      <div class="sec-title">Conducta y Estado</div>
+      <div class="fg c2"><div class="ff"><label>Estado emocional</label><input type="text" id="s_emocional"></div><div class="ff"><label>Nivel de atención</label><input type="text" id="s_atencion"></div></div>
+      <div class="ff"><label>Observaciones conductuales</label><textarea id="s_conducta" rows="3"></textarea></div>
+      <div class="sec-title">Logros y Avances</div>
+      <div class="ff"><textarea id="s_logros" rows="3"></textarea></div>
+      <div class="sec-title">Dificultades</div>
+      <div class="ff"><textarea id="s_dificultades" rows="3"></textarea></div>
+      <div class="sec-title">Plan para la próxima sesión</div>
+      <div class="ff"><textarea id="s_plan" rows="3"></textarea></div>
+      <div class="ff" style="margin-top:8px;"><label>Observaciones adicionales</label><textarea id="s_obs" rows="2"></textarea></div>
+      <div class="alert" id="alert_s"></div>
+      <div class="factions"><button class="btn-sec" onclick="limpiarFForm('seguimiento')">🗑️ Limpiar</button><button class="btn" onclick="guardarFForm('seguimiento')">💾 Guardar en Drive</button></div>
+    </div>
+
+    <!-- ASISTENCIA -->
+    <div class="fform" id="fform-asistencia">
+      <div class="fform-title">Ficha de Asistencia</div>
+      <div class="fform-sub">Registro de asistencia del paciente a las sesiones.</div>
+      <div class="fg c2"><div class="ff"><label>Mes / Período</label><input type="text" id="as_periodo" placeholder="Ej: Marzo 2026"></div><div class="ff"><label>Especialista</label><input type="text" id="as_especialista"></div></div>
+      <div class="sec-title">Registro de Sesiones</div>
+      <div class="tw"><table><thead><tr><th>#</th><th>Fecha</th><th>Hora</th><th>Asistencia</th><th>Observaciones</th></tr></thead><tbody id="tbody_as"></tbody></table></div>
+      <button class="btn-add-r" onclick="addAsRow()">+ Agregar sesión</button>
+      <div class="ff" style="margin-top:14px;"><label>Observaciones generales</label><textarea id="as_obs" rows="3"></textarea></div>
+      <div class="fg c2" style="margin-top:10px;"><div class="ff"><label>Total sesiones programadas</label><input type="text" id="as_total"></div><div class="ff"><label>Total asistidas</label><input type="text" id="as_asistidas"></div></div>
+      <div class="alert" id="alert_as"></div>
+      <div class="factions"><button class="btn-sec" onclick="limpiarFForm('asistencia')">🗑️ Limpiar</button><button class="btn" onclick="guardarFForm('asistencia')">💾 Guardar en Drive</button></div>
+    </div>
+
+  </div><!-- /form-body -->
+</div><!-- /formPanel -->
+
 <script>
-  const CLIENT_ID = '944467948669-mq0s3fq0ig35hi6ers3flimrd1lrcq9o.apps.googleusercontent.com';
-  const SUBCARPETAS = ['ANAMNESIS','DATOS DE FILIACIÓN','FICHAS DE SEGUIMIENTO','ASISTENCIA','INFORMES DE PRUEBAS','PROGRAMA DE INTERVENCIÓN'];
-
-  // Siempre leer de localStorage — nunca depender de variables locales que se puedan perder
-  const cfg = {
-    get apiKey() { return localStorage.getItem('gd_api_key')||''; },
-    get rootId() { return localStorage.getItem('gd_root_id')||''; },
-    get token() { return localStorage.getItem('gd_oauth_token')||''; },
-    set token(v) { v ? localStorage.setItem('gd_oauth_token',v) : localStorage.removeItem('gd_oauth_token'); }
+  const CLIENT_ID='944467948669-mq0s3fq0ig35hi6ers3flimrd1lrcq9o.apps.googleusercontent.com';
+  const SUBCARPETAS=['ANAMNESIS','DATOS DE FILIACIÓN','FICHAS DE SEGUIMIENTO','ASISTENCIA','INFORMES DE PRUEBAS','PROGRAMA DE INTERVENCIÓN'];
+  const cfg={
+    get apiKey(){return localStorage.getItem('gd_api_key')||'';},
+    get rootId(){return localStorage.getItem('gd_root_id')||'';},
+    get token(){return localStorage.getItem('gd_oauth_token')||'';},
+    set token(v){v?localStorage.setItem('gd_oauth_token',v):localStorage.removeItem('gd_oauth_token');}
   };
-
-  let allPatients=[], currentFolderId='', currentFolderName='';
+  let allPatients=[],currentFolderId='',currentFolderName='';
+  let formPatientId='',formPatientName='';
 
   // ── INIT ─────────────────────────────────────────────────
-  function init() {
-    // Capturar token OAuth del hash si viene de redirect
-    const hash = window.location.hash;
-    if (hash && hash.includes('access_token')) {
-      const params = new URLSearchParams(hash.substring(1));
-      const token = params.get('access_token');
-      if (token) {
-        cfg.token = token;
-        window.history.replaceState({}, document.title, window.location.pathname);
-      }
+  function init(){
+    const hash=window.location.hash;
+    if(hash&&hash.includes('access_token')){
+      const p=new URLSearchParams(hash.substring(1));
+      const t=p.get('access_token');
+      if(t){cfg.token=t;window.history.replaceState({},document.title,window.location.pathname);}
     }
-
-    // Rellenar campos con valores guardados
-    if (cfg.apiKey) document.getElementById('apiKeyInput').value = cfg.apiKey;
-    if (cfg.rootId) document.getElementById('folderIdInput').value = cfg.rootId;
-
-    // Ocultar banner OAuth si ya tiene token
-    if (cfg.token) {
-      document.getElementById('oauthBanner').style.display = 'none';
-      document.getElementById('btnOauth').style.display = 'none';
-    }
-
-    // Auto-conectar si tiene todo guardado
-    if (cfg.apiKey && cfg.rootId) {
-      document.getElementById('setupCard').style.display = 'none';
-      document.getElementById('headerSub').textContent = '📂 EXPEDIENTES DE PACIENTES';
-      cargarPacientes();
-    }
+    if(cfg.apiKey) document.getElementById('apiKeyInput').value=cfg.apiKey;
+    if(cfg.rootId) document.getElementById('folderIdInput').value=cfg.rootId;
+    if(cfg.token){document.getElementById('oauthBanner').style.display='none';document.getElementById('btnOauth').style.display='none';}
+    if(cfg.apiKey&&cfg.rootId){document.getElementById('setupCard').style.display='none';document.getElementById('headerSub').textContent='📂 EXPEDIENTES DE PACIENTES';cargarPacientes();}
+    // Init asistencia rows
+    for(let i=0;i<5;i++) addAsRow();
   }
 
-  function loginOAuth() {
-    const redirectUri = window.location.href.split('#')[0].split('?')[0];
-    window.location.href = 'https://accounts.google.com/o/oauth2/v2/auth'
-      +'?client_id='+encodeURIComponent(CLIENT_ID)
-      +'&redirect_uri='+encodeURIComponent(redirectUri)
-      +'&response_type=token'
-      +'&scope='+encodeURIComponent('https://www.googleapis.com/auth/drive')
-      +'&prompt=select_account';
+  function loginOAuth(){
+    const r=window.location.href.split('#')[0].split('?')[0];
+    window.location.href='https://accounts.google.com/o/oauth2/v2/auth?client_id='+encodeURIComponent(CLIENT_ID)+'&redirect_uri='+encodeURIComponent(r)+'&response_type=token&scope='+encodeURIComponent('https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/documents')+'&prompt=select_account';
   }
+  function toggleSetup(){const c=document.getElementById('setupCard');c.style.display=c.style.display==='none'?'block':'none';}
 
-  function toggleSetup() {
-    const c = document.getElementById('setupCard');
-    c.style.display = c.style.display==='none' ? 'block' : 'none';
-  }
-
-  // ── GUARDAR CONFIG ────────────────────────────────────────
-  async function guardarYConectar() {
-    const apiKey = document.getElementById('apiKeyInput').value.trim();
-    const rootId = document.getElementById('folderIdInput').value.trim();
-    if (!apiKey || !rootId) { showAlert('setupAlert','Completa ambos campos.','error'); return; }
+  // ── CONFIG ────────────────────────────────────────────────
+  async function guardarYConectar(){
+    const k=document.getElementById('apiKeyInput').value.trim();
+    const id=document.getElementById('folderIdInput').value.trim();
+    if(!k||!id){showAlert('setupAlert','Completa ambos campos.','error');return;}
     showAlert('setupAlert','⏳ Verificando...','info');
-    try {
-      const res = await fetch('https://www.googleapis.com/drive/v3/files/'+rootId+'?fields=name&key='+apiKey);
-      const data = await res.json();
-      if (data.error) throw new Error(data.error.message);
-      // Guardar SOLO si la verificación fue exitosa
-      localStorage.setItem('gd_api_key', apiKey);
-      localStorage.setItem('gd_root_id', rootId);
-      document.getElementById('headerSub').textContent = '📂 '+data.name;
-      showAlert('setupAlert','✅ Conectado a: "'+data.name+'"','success');
-      setTimeout(()=>{ document.getElementById('setupCard').style.display='none'; cargarPacientes(); }, 900);
-    } catch(e) { showAlert('setupAlert','❌ '+e.message,'error'); }
+    try{
+      const res=await fetch('https://www.googleapis.com/drive/v3/files/'+id+'?fields=name&key='+k);
+      const d=await res.json();if(d.error)throw new Error(d.error.message);
+      localStorage.setItem('gd_api_key',k);localStorage.setItem('gd_root_id',id);
+      document.getElementById('headerSub').textContent='📂 '+d.name;
+      showAlert('setupAlert','✅ Conectado a: "'+d.name+'"','success');
+      setTimeout(()=>{document.getElementById('setupCard').style.display='none';cargarPacientes();},900);
+    }catch(e){showAlert('setupAlert','❌ '+e.message,'error');}
   }
 
   // ── CARGAR PACIENTES ──────────────────────────────────────
-  async function cargarPacientes() {
-    // SIEMPRE leer rootId fresco de localStorage
-    const rootId = cfg.rootId;
-    if (!rootId) { showAlert('setupAlert','Falta el ID de la carpeta.','error'); toggleSetup(); return; }
-
+  async function cargarPacientes(){
+    const rootId=cfg.rootId;
+    if(!rootId){showAlert('setupAlert','Falta el ID de la carpeta.','error');toggleSetup();return;}
     document.getElementById('results').innerHTML='<div class="state-msg"><span class="spinner"></span><br><br>Cargando pacientes...</div>';
     document.getElementById('toolbar').style.display='none';
-
-    if (!cfg.token) {
-      document.getElementById('oauthBanner').style.display='flex';
-      document.getElementById('btnOauth').style.display='flex';
-    }
-
-    try {
-      let all=[], pageToken=null;
-      do {
+    if(!cfg.token){document.getElementById('oauthBanner').style.display='flex';document.getElementById('btnOauth').style.display='flex';}
+    try{
+      let all=[],pt=null;
+      do{
         let url="https://www.googleapis.com/drive/v3/files?q='"+rootId+"'+in+parents+and+mimeType='application/vnd.google-apps.folder'+and+trashed=false&fields=files(id,name),nextPageToken&pageSize=100&orderBy=name&key="+cfg.apiKey;
-        if (pageToken) url+='&pageToken='+pageToken;
-        const res=await fetch(url);
-        const d=await res.json();
-        if (d.error) throw new Error(d.error.message);
-        all=all.concat(d.files||[]);
-        pageToken=d.nextPageToken;
-      } while(pageToken);
-
+        if(pt)url+='&pageToken='+pt;
+        const r=await fetch(url);const d=await r.json();if(d.error)throw new Error(d.error.message);
+        all=all.concat(d.files||[]);pt=d.nextPageToken;
+      }while(pt);
       allPatients=all;
       document.getElementById('toolbar').style.display='flex';
-      if (!all.length) {
-        document.getElementById('results').innerHTML='<div class="state-msg"><div class="big">📭</div><strong>No se encontraron pacientes</strong>Verifica el ID de la carpeta</div>';
-        return;
-      }
+      if(!all.length){document.getElementById('results').innerHTML='<div class="state-msg"><div class="big">📭</div><strong>No se encontraron pacientes</strong></div>';return;}
       mostrarPacientes(all);
-    } catch(e) {
-      document.getElementById('results').innerHTML='<div class="state-msg"><div class="big">⚠️</div><strong>Error al cargar</strong>'+e.message+'</div>';
-    }
+    }catch(e){document.getElementById('results').innerHTML='<div class="state-msg"><div class="big">⚠️</div><strong>Error al cargar</strong>'+e.message+'</div>';}
   }
 
-  function buscar(q) {
-    q=q.trim().toLowerCase();
-    mostrarPacientes(q?allPatients.filter(p=>p.name.toLowerCase().includes(q)):allPatients,q);
-  }
+  function buscar(q){q=q.trim().toLowerCase();mostrarPacientes(q?allPatients.filter(p=>p.name.toLowerCase().includes(q)):allPatients,q);}
 
-  function mostrarPacientes(list,query) {
+  // ── MOSTRAR PACIENTES ─────────────────────────────────────
+  function mostrarPacientes(list,query){
     query=query||'';
-    if (!list.length) { document.getElementById('results').innerHTML='<div class="state-msg"><div class="big">🔍</div><strong>Sin resultados</strong></div>'; return; }
-    const initials=n=>{const p=n.trim().split(' ');return p.length>=2?(p[0][0]+p[1][0]).toUpperCase():n.substring(0,2).toUpperCase();};
+    if(!list.length){document.getElementById('results').innerHTML='<div class="state-msg"><div class="big">🔍</div><strong>Sin resultados</strong></div>';return;}
+    const ini=n=>{const p=n.trim().split(' ');return p.length>=2?(p[0][0]+p[1][0]).toUpperCase():n.substring(0,2).toUpperCase();};
     const hl=(t,q)=>{if(!q)return t;const r=new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');return t.replace(r,'<mark style="background:#d1fae5;color:#065f46;border-radius:3px;padding:0 2px;">$1</mark>');};
     const safe=s=>s.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
     document.getElementById('results').innerHTML=list.map((p,i)=>`
       <div class="patient-card" id="card-${p.id}" style="animation-delay:${i*0.03}s">
         <div class="patient-header" onclick="togglePatient('${p.id}')">
-          <div class="avatar">${initials(p.name)}</div>
+          <div class="avatar">${ini(p.name)}</div>
           <div class="patient-name">${hl(p.name,query)}</div>
           <span class="chevron">▶</span>
         </div>
         <div class="patient-body" id="body-${p.id}">
           <div id="content-${p.id}"><div style="padding:10px;color:var(--muted);font-size:0.85rem;">⏳ Cargando...</div></div>
           <div class="body-actions">
-            <button class="btn-sm btn-sm-yellow" onclick="abrirModalDoc('${p.id}','${safe(p.name)}')">📝 Doc en carpeta principal</button>
+            <button class="btn-sm btn-sm-purple" onclick="abrirFormPanel('${p.id}','${safe(p.name)}')">📋 Formularios clínicos</button>
+            <button class="btn-sm btn-sm-yellow" onclick="abrirModalDoc('${p.id}','${safe(p.name)}')">📝 Nuevo doc</button>
             <a href="https://drive.google.com/drive/folders/${p.id}" target="_blank" class="btn-sm btn-sm-outline">📁 Ver en Drive</a>
           </div>
         </div>
@@ -343,19 +502,20 @@
     `).join('');
   }
 
-  async function togglePatient(id) {
+  // ── EXPANDIR PACIENTE ─────────────────────────────────────
+  async function togglePatient(id){
     const card=document.getElementById('card-'+id);
-    if (card.classList.contains('open')) { card.classList.remove('open'); return; }
+    if(card.classList.contains('open')){card.classList.remove('open');return;}
     card.classList.add('open');
     const content=document.getElementById('content-'+id);
-    if (content.dataset.loaded) return;
-    try {
-      const apiKey=cfg.apiKey;
-      const r1=await fetch("https://www.googleapis.com/drive/v3/files?q='"+id+"'+in+parents+and+mimeType='application/vnd.google-apps.folder'+and+trashed=false&fields=files(id,name)&orderBy=name&key="+apiKey);
-      const d1=await r1.json(); if(d1.error) throw new Error(d1.error.message);
-      const r2=await fetch("https://www.googleapis.com/drive/v3/files?q='"+id+"'+in+parents+and+mimeType!='application/vnd.google-apps.folder'+and+trashed=false&fields=files(id,name,mimeType,webViewLink)&orderBy=name&key="+apiKey);
-      const d2=await r2.json(); if(d2.error) throw new Error(d2.error.message);
-      const folders=d1.files||[], rootFiles=d2.files||[];
+    if(content.dataset.loaded)return;
+    try{
+      const k=cfg.apiKey;
+      const r1=await fetch("https://www.googleapis.com/drive/v3/files?q='"+id+"'+in+parents+and+mimeType='application/vnd.google-apps.folder'+and+trashed=false&fields=files(id,name)&orderBy=name&key="+k);
+      const d1=await r1.json();if(d1.error)throw new Error(d1.error.message);
+      const r2=await fetch("https://www.googleapis.com/drive/v3/files?q='"+id+"'+in+parents+and+mimeType!='application/vnd.google-apps.folder'+and+trashed=false&fields=files(id,name,mimeType,webViewLink)&orderBy=name&key="+k);
+      const d2=await r2.json();if(d2.error)throw new Error(d2.error.message);
+      const folders=d1.files||[],rootFiles=d2.files||[];
       const safe=s=>s.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
       let html=rootFiles.map(f=>fileItemHtml(f)).join('');
       html+=folders.map(f=>`
@@ -366,128 +526,160 @@
           <div class="folder-content" id="fc-${f.id}">
             <div class="folder-actions">
               <button class="btn-add-doc" onclick="event.stopPropagation();abrirModalDoc('${f.id}','${safe(f.name)}')">➕ Nuevo doc aquí</button>
+              ${getFormBtn(f.name,f.id,id)}
             </div>
             <div class="files-inner" id="fi-${f.id}"><div class="empty-folder">⏳ Cargando...</div></div>
           </div>
         </div>
       `).join('');
-      if (!html) html='<div style="padding:8px 4px;font-size:0.83rem;color:var(--muted);">Carpeta vacía</div>';
-      content.innerHTML=html; content.dataset.loaded='1';
-    } catch(e) { content.innerHTML='<div style="padding:8px;color:#991b1b;font-size:0.83rem;">❌ '+e.message+'</div>'; }
+      if(!html)html='<div style="padding:8px 4px;font-size:0.83rem;color:var(--muted);">Carpeta vacía</div>';
+      content.innerHTML=html;content.dataset.loaded='1';
+    }catch(e){content.innerHTML='<div style="padding:8px;color:#991b1b;font-size:0.83rem;">❌ '+e.message+'</div>';}
   }
 
-  async function toggleFolder(folderId, folderName) {
+  function getFormBtn(folderName,folderId,patientId){
+    const map={'ANAMNESIS':'anamnesis','DATOS DE FILIACIÓN':'filiacion','FICHAS DE SEGUIMIENTO':'seguimiento','ASISTENCIA':'asistencia'};
+    const tipo=map[folderName.toUpperCase()];
+    if(!tipo)return'';
+    const p=allPatients.find(x=>x.id===patientId)||{name:''};
+    const safe=s=>s.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    return`<button class="btn-form" onclick="event.stopPropagation();abrirFormPanel('${patientId}','${safe(p.name)}','${tipo}')">📋 Llenar formulario</button>`;
+  }
+
+  async function toggleFolder(folderId){
     const row=document.getElementById('fr-'+folderId);
     const fc=document.getElementById('fc-'+folderId);
     const fi=document.getElementById('fi-'+folderId);
     const isOpen=fc.classList.contains('open');
-    row.classList.toggle('open',!isOpen);
-    fc.classList.toggle('open',!isOpen);
-    if (isOpen||fi.dataset.loaded) return;
-    try {
+    row.classList.toggle('open',!isOpen);fc.classList.toggle('open',!isOpen);
+    if(isOpen||fi.dataset.loaded)return;
+    try{
       const res=await fetch("https://www.googleapis.com/drive/v3/files?q='"+folderId+"'+in+parents+and+mimeType!='application/vnd.google-apps.folder'+and+trashed=false&fields=files(id,name,mimeType,webViewLink)&orderBy=name&key="+cfg.apiKey);
-      const d=await res.json(); if(d.error) throw new Error(d.error.message);
+      const d=await res.json();if(d.error)throw new Error(d.error.message);
       const files=d.files||[];
       fi.innerHTML=files.length?files.map(f=>fileItemHtml(f)).join(''):'<div class="empty-folder">Sin archivos — usa ➕ para crear uno</div>';
       fi.dataset.loaded='1';
-    } catch(e) { fi.innerHTML='<div style="padding:6px;color:#991b1b;font-size:0.82rem;">❌ Error</div>'; }
+    }catch(e){fi.innerHTML='<div style="padding:6px;color:#991b1b;font-size:0.82rem;">❌ Error</div>';}
   }
 
-  function fileItemHtml(f) {
-    return '<div class="file-item"><span>'+getIcon(f.mimeType)+'</span><a href="'+getEditUrl(f)+'" target="_blank">'+f.name+'</a></div>';
-  }
+  function fileItemHtml(f){return'<div class="file-item"><span>'+getIcon(f.mimeType)+'</span><a href="'+getEditUrl(f)+'" target="_blank">'+f.name+'</a></div>';}
 
-  function abrirModalNuevo() {
-    if (!cfg.token) { loginOAuth(); return; }
-    document.getElementById('nuevoNombre').value='';
-    document.getElementById('modalAlert').className='alert';
-    document.getElementById('modalNuevo').classList.add('open');
-    setTimeout(()=>document.getElementById('nuevoNombre').focus(),100);
-  }
-
-  async function crearPaciente() {
+  // ── NUEVO PACIENTE ────────────────────────────────────────
+  function abrirModalNuevo(){if(!cfg.token){loginOAuth();return;}document.getElementById('nuevoNombre').value='';document.getElementById('modalAlert').className='alert';document.getElementById('modalNuevo').classList.add('open');setTimeout(()=>document.getElementById('nuevoNombre').focus(),100);}
+  async function crearPaciente(){
     const nombre=document.getElementById('nuevoNombre').value.trim().toUpperCase();
-    if (!nombre) { showAlert('modalAlert','Escribe el nombre del paciente.','error'); return; }
+    if(!nombre){showAlert('modalAlert','Escribe el nombre del paciente.','error');return;}
     showAlert('modalAlert','⏳ Creando carpeta...','info');
-    try {
+    try{
       const folder=await oPost('https://www.googleapis.com/drive/v3/files',{name:nombre,mimeType:'application/vnd.google-apps.folder',parents:[cfg.rootId]});
       showAlert('modalAlert','⏳ Creando subcarpetas...','info');
-      for (const sub of SUBCARPETAS) {
-        await oPost('https://www.googleapis.com/drive/v3/files',{name:sub,mimeType:'application/vnd.google-apps.folder',parents:[folder.id]});
-      }
-      showAlert('modalAlert','✅ Paciente creado con todas las carpetas','success');
-      allPatients.push({id:folder.id,name:nombre});
-      allPatients.sort((a,b)=>a.name.localeCompare(b.name));
-      mostrarPacientes(allPatients);
-      setTimeout(()=>cerrarModal('modalNuevo'),1200);
-    } catch(e) {
-      if (e.message.includes('401')) { cfg.token=''; loginOAuth(); return; }
-      showAlert('modalAlert','❌ '+e.message,'error');
-    }
+      for(const sub of SUBCARPETAS)await oPost('https://www.googleapis.com/drive/v3/files',{name:sub,mimeType:'application/vnd.google-apps.folder',parents:[folder.id]});
+      showAlert('modalAlert','✅ Paciente creado','success');
+      allPatients.push({id:folder.id,name:nombre});allPatients.sort((a,b)=>a.name.localeCompare(b.name));
+      mostrarPacientes(allPatients);setTimeout(()=>cerrarModal('modalNuevo'),1200);
+    }catch(e){if(e.message.includes('401')){cfg.token='';loginOAuth();return;}showAlert('modalAlert','❌ '+e.message,'error');}
   }
 
-  function abrirModalDoc(folderId, folderName) {
-    if (!cfg.token) { loginOAuth(); return; }
-    currentFolderId=folderId; currentFolderName=folderName;
-    document.getElementById('nuevoDocNombre').value='';
-    document.getElementById('modalDocTxt').textContent='Se creará en: 📁 '+folderName;
-    document.getElementById('modalDocAlert').className='alert';
-    document.getElementById('modalDoc').classList.add('open');
-    setTimeout(()=>document.getElementById('nuevoDocNombre').focus(),100);
-  }
-
-  async function crearDoc() {
+  // ── NUEVO DOC ─────────────────────────────────────────────
+  function abrirModalDoc(folderId,folderName){if(!cfg.token){loginOAuth();return;}currentFolderId=folderId;currentFolderName=folderName;document.getElementById('nuevoDocNombre').value='';document.getElementById('modalDocTxt').textContent='Se creará en: 📁 '+folderName;document.getElementById('modalDocAlert').className='alert';document.getElementById('modalDoc').classList.add('open');setTimeout(()=>document.getElementById('nuevoDocNombre').focus(),100);}
+  async function crearDoc(){
     const nombre=document.getElementById('nuevoDocNombre').value.trim();
-    if (!nombre) { showAlert('modalDocAlert','Escribe el nombre del documento.','error'); return; }
+    if(!nombre){showAlert('modalDocAlert','Escribe el nombre del documento.','error');return;}
     showAlert('modalDocAlert','⏳ Creando...','info');
-    try {
+    try{
       const doc=await oPost('https://www.googleapis.com/drive/v3/files',{name:nombre,mimeType:'application/vnd.google-apps.document',parents:[currentFolderId]});
       showAlert('modalDocAlert','✅ Listo, abriendo...','success');
       const fi=document.getElementById('fi-'+currentFolderId);
-      if (fi) {
-        const newItem=document.createElement('div');
-        newItem.innerHTML=fileItemHtml({id:doc.id,name:nombre,mimeType:'application/vnd.google-apps.document'});
-        fi.appendChild(newItem.firstChild);
-        fi.dataset.loaded='1';
-        const empty=fi.querySelector('.empty-folder');
-        if (empty) empty.remove();
-      }
-      setTimeout(()=>{ cerrarModal('modalDoc'); window.open('https://docs.google.com/document/d/'+doc.id+'/edit','_blank'); },700);
-    } catch(e) {
-      if (e.message.includes('401')) { cfg.token=''; loginOAuth(); return; }
-      showAlert('modalDocAlert','❌ '+e.message,'error');
+      if(fi){const ni=document.createElement('div');ni.innerHTML=fileItemHtml({id:doc.id,name:nombre,mimeType:'application/vnd.google-apps.document'});fi.appendChild(ni.firstChild);fi.dataset.loaded='1';const em=fi.querySelector('.empty-folder');if(em)em.remove();}
+      setTimeout(()=>{cerrarModal('modalDoc');window.open('https://docs.google.com/document/d/'+doc.id+'/edit','_blank');},700);
+    }catch(e){if(e.message.includes('401')){cfg.token='';loginOAuth();return;}showAlert('modalDocAlert','❌ '+e.message,'error');}
+  }
+
+  // ── PANEL FORMULARIOS ─────────────────────────────────────
+  function abrirFormPanel(patientId,patientName,tabInicial){
+    if(!cfg.token){loginOAuth();return;}
+    formPatientId=patientId;formPatientName=patientName;
+    document.getElementById('formPanelSub').textContent='Paciente: '+patientName;
+    document.getElementById('formPanel').classList.add('open');
+    document.body.style.overflow='hidden';
+    if(tabInicial){
+      document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('active'));
+      document.querySelectorAll('.fform').forEach(f=>f.classList.remove('active'));
+      document.getElementById('fform-'+tabInicial).classList.add('active');
+      document.querySelectorAll('.ftab').forEach(t=>{if(t.textContent.toLowerCase().includes(tabInicial.substring(0,4)))t.classList.add('active');});
+    }
+  }
+  function cerrarFormPanel(){document.getElementById('formPanel').classList.remove('open');document.body.style.overflow='';}
+  function mostrarFForm(id,btn){
+    document.querySelectorAll('.fform').forEach(f=>f.classList.remove('active'));
+    document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('active'));
+    document.getElementById('fform-'+id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // ── TABLA HELPERS ─────────────────────────────────────────
+  function addTRow(tid,cols){const tb=document.querySelector('#'+tid+' tbody');const tr=document.createElement('tr');for(let i=0;i<cols;i++)tr.innerHTML+='<td><input class="ti"></td>';tb.appendChild(tr);}
+  let asCount=0;
+  function addAsRow(){asCount++;const tb=document.getElementById('tbody_as');const tr=document.createElement('tr');tr.innerHTML=`<td><input class="ti" value="${asCount}" style="width:36px;text-align:center;"></td><td><input class="ti" type="date"></td><td><input class="ti" placeholder="10:00 am" style="width:80px;"></td><td><select class="ti" style="width:120px;"><option>Asistió</option><option>Justificada</option><option>Sin justificar</option><option>Tardanza</option></select></td><td><input class="ti"></td>`;tb.appendChild(tr);}
+
+  // ── LIMPIAR FORM ──────────────────────────────────────────
+  function limpiarFForm(tipo){if(!confirm('¿Limpiar todos los campos?'))return;document.querySelectorAll('#fform-'+tipo+' input,#fform-'+tipo+' textarea,#fform-'+tipo+' select').forEach(el=>{if(el.type==='checkbox')el.checked=false;else el.value='';});}
+
+  // ── GENERAR TEXTO ─────────────────────────────────────────
+  function v(id){const el=document.getElementById(id);return el?el.value.trim():'';}
+  function checks(cgId){return Array.from(document.querySelectorAll('#'+cgId+' input:checked')).map(c=>c.value).join(', ')||'Ninguno';}
+
+  function generarTexto(tipo){
+    if(tipo==='anamnesis'){
+      const fam=[];document.querySelectorAll('#tbl_fam tbody tr').forEach(tr=>{const c=tr.querySelectorAll('input');if(c[0].value.trim())fam.push(c[0].value+' | '+c[1].value+' | '+c[2].value+' | '+c[3].value);});
+      const com=[document.getElementById('com_g'),document.getElementById('com_p'),document.getElementById('com_f')].filter(e=>e&&e.checked).map(e=>e.value).join(', ')||'No especificado';
+      const ord=[document.getElementById('ord_s'),document.getElementById('ord_c')].filter(e=>e&&e.checked).map(e=>e.value).join(', ')||'No especificado';
+      const nar=[document.getElementById('nar_m'),document.getElementById('nar_i')].filter(e=>e&&e.checked).map(e=>e.value).join(', ')||'No especificado';
+      return`GUÍA DE ANAMNESIS PSICOLÓGICA INFANTIL\n${'='.repeat(50)}\n\nI. DATOS DE IDENTIFICACIÓN\n\nApellidos y Nombres: ${v('a_nombre')}\nFecha de Nacimiento: ${v('a_fnac')}   Edad: ${v('a_edad')}   Sexo: ${v('a_sexo')}\nLugar de Nacimiento: ${v('a_lugar_nac')}   Lugar en familia: ${v('a_lugar_familia')}\nReligión: ${v('a_religion')}   I.E.: ${v('a_ie')}\n\nPADRE\nNombres: ${v('a_padre_nombre')}   Edad: ${v('a_padre_edad')}   Instrucción: ${v('a_padre_instruccion')}   Ocupación: ${v('a_padre_ocupacion')}   GS: ${v('a_padre_gs')}\n\nMADRE\nNombres: ${v('a_madre_nombre')}   Edad: ${v('a_madre_edad')}   Instrucción: ${v('a_madre_instruccion')}   Ocupación: ${v('a_madre_ocupacion')}   GS: ${v('a_madre_gs')}\n\nFAMILIARES QUE VIVEN CON EL NIÑO\nParentesco | Edad | Instrucción | Ocupación\n${fam.join('\n')||'(No registrado)'}\n\n${'─'.repeat(50)}\nII. PROBLEMA ACTUAL\n\n${v('a_problema')}\n\n${'─'.repeat(50)}\nIII. HISTORIA Y DESARROLLO\n\nEMBARAZO Y PARTO:\n${v('a_embarazo')}\n\nEstado psicológico de la madre: ${v('a_madre_estado')}\nActitud del padre: ${v('a_padre_actitud')}\n\nDESARROLLO NEUROMUSCULAR:\nSostuvo cabeza: ${v('a_cabeza')}   Se sentó: ${v('a_sento')}   Caminó: ${v('a_camino')}\nComió solo: ${v('a_comio')}   Control esfínteres: ${v('a_esfinteres')}\nObservaciones: ${v('a_motor_obs')}\n\nDESARROLLO DEL LENGUAJE:\nPrimeras palabras: ${v('a_palabras')}   Primeras frases: ${v('a_frases')}\nLenguaje actual: ${v('a_lenguaje_actual')}\n${v('a_lenguaje_obs')}\n\nVISIÓN: ${v('a_vision')}\nAUDICIÓN: ${v('a_audicion')}\n\nHISTORIA ESCOLAR:\n${v('a_escolar')}\n\nJUEGOS Y SOCIALIZACIÓN:\n${v('a_juegos')}\n\n${'─'.repeat(50)}\nIV. HISTORIA FAMILIAR\n\n${v('a_familia')}\n\n${'─'.repeat(50)}\nV. ANTECEDENTES\n\n${v('a_antecedentes')}\n\n${'─'.repeat(50)}\nDESCRIPCIÓN DE CONDUCTAS\n\nEmocionales: ${checks('cg_emocional')}\nSociales: ${checks('cg_social')}\nSintomatología: ${checks('cg_sint')}\nMotoras: ${checks('cg_motor')}\n\nCOMUNICACIÓN:\n¿Cómo se comunica?: ${com}\n¿Comprende órdenes?: ${ord}\n¿Narra acontecimientos?: ${nar}\nAutoestima percibida: ${v('a_autoestima')}\n\n${'─'.repeat(50)}\nFecha de entrevista: ${v('a_fecha_ent')}\nEspecialista Responsable: ${v('a_especialista')}\n`;}
+    if(tipo==='filiacion')return`DATOS DE FILIACIÓN\n${'='.repeat(50)}\n\nPACIENTE\nNombres: ${v('f_nombre')}\nFecha Nac.: ${v('f_fnac')}   Edad: ${v('f_edad')}   Sexo: ${v('f_sexo')}\nDNI: ${v('f_dni')}   GS: ${v('f_gs')}\nLugar de Nac.: ${v('f_lugar_nac')}\nDirección: ${v('f_direccion')}\nI.E.: ${v('f_ie')}   Grado: ${v('f_grado')}\nMotivo de Consulta: ${v('f_motivo')}\nDerivado por: ${v('f_derivado')}\n\nPADRE\nNombres: ${v('f_padre_nombre')}   DNI: ${v('f_padre_dni')}\nEdad: ${v('f_padre_edad')}   Ocupación: ${v('f_padre_ocup')}   Tel: ${v('f_padre_tel')}\n\nMADRE\nNombres: ${v('f_madre_nombre')}   DNI: ${v('f_madre_dni')}\nEdad: ${v('f_madre_edad')}   Ocupación: ${v('f_madre_ocup')}   Tel: ${v('f_madre_tel')}\n\n${'─'.repeat(50)}\nFecha: ${v('f_fecha')}   Especialista: ${v('f_especialista')}\n`;
+    if(tipo==='seguimiento')return`FICHA DE SEGUIMIENTO POR SESIÓN\n${'='.repeat(50)}\n\nPaciente: ${formPatientName}\nFecha: ${v('s_fecha')}   ${v('s_numero')}\nEspecialista: ${v('s_especialista')}   Duración: ${v('s_duracion')} min\n\n${'─'.repeat(50)}\nOBJETIVOS DE LA SESIÓN\n${v('s_objetivos')}\n\n${'─'.repeat(50)}\nDESARROLLO DE LA SESIÓN\n${v('s_actividades')}\n\n${'─'.repeat(50)}\nCONDUCTA Y ESTADO\nEstado emocional: ${v('s_emocional')}\nNivel de atención: ${v('s_atencion')}\n${v('s_conducta')}\n\n${'─'.repeat(50)}\nLOGROS Y AVANCES\n${v('s_logros')}\n\n${'─'.repeat(50)}\nDIFICULTADES\n${v('s_dificultades')}\n\n${'─'.repeat(50)}\nPLAN PRÓXIMA SESIÓN\n${v('s_plan')}\n\nOBSERVACIONES:\n${v('s_obs')}\n`;
+    if(tipo==='asistencia'){const filas=[];document.querySelectorAll('#tbody_as tr').forEach(tr=>{const ins=tr.querySelectorAll('input,select');filas.push(ins[0].value+' | '+ins[1].value+' | '+ins[2].value+' | '+ins[3].value+' | '+ins[4].value);});return`FICHA DE ASISTENCIA\n${'='.repeat(50)}\n\nPaciente: ${formPatientName}\nPeríodo: ${v('as_periodo')}   Especialista: ${v('as_especialista')}\n\n${'─'.repeat(50)}\n# | Fecha | Hora | Asistencia | Observaciones\n${filas.join('\n')}\n\n${'─'.repeat(50)}\nTotal programadas: ${v('as_total')}   Total asistidas: ${v('as_asistidas')}\n\nOBSERVACIONES GENERALES:\n${v('as_obs')}\n`;}
+    return'';
+  }
+
+  // ── GUARDAR FORM EN DRIVE ─────────────────────────────────
+  async function guardarFForm(tipo){
+    if(!cfg.token){loginOAuth();return;}
+    const alertId='alert_'+{anamnesis:'a',filiacion:'f',seguimiento:'s',asistencia:'as'}[tipo];
+    const labels={anamnesis:'Anamnesis',filiacion:'Datos de Filiación',seguimiento:'Ficha de Seguimiento',asistencia:'Asistencia'};
+    const folderNames={anamnesis:'ANAMNESIS',filiacion:'DATOS DE FILIACIÓN',seguimiento:'FICHAS DE SEGUIMIENTO',asistencia:'ASISTENCIA'};
+    const fecha=new Date().toLocaleDateString('es-PE');
+    const nombreDoc=labels[tipo]+' - '+formPatientName+' - '+fecha;
+    const texto=generarTexto(tipo);
+    showAlert(alertId,'⏳ Guardando en Drive...','info');
+    try{
+      // Buscar subcarpeta correcta dentro del paciente
+      const q=encodeURIComponent("'"+formPatientId+"' in parents and name='"+folderNames[tipo]+"' and mimeType='application/vnd.google-apps.folder' and trashed=false");
+      const sr=await fetch('https://www.googleapis.com/drive/v3/files?q='+q+'&fields=files(id)&key='+cfg.apiKey);
+      const sd=await sr.json();
+      let folderId;
+      if(sd.files&&sd.files.length>0){folderId=sd.files[0].id;}
+      else{const cf=await oPost('https://www.googleapis.com/drive/v3/files',{name:folderNames[tipo],mimeType:'application/vnd.google-apps.folder',parents:[formPatientId]});folderId=cf.id;}
+      // Crear doc
+      const doc=await oPost('https://www.googleapis.com/drive/v3/files',{name:nombreDoc,mimeType:'application/vnd.google-apps.document',parents:[folderId]});
+      // Insertar texto
+      const cr=await fetch('https://docs.googleapis.com/v1/documents/'+doc.id+':batchUpdate',{method:'POST',headers:{'Authorization':'Bearer '+cfg.token,'Content-Type':'application/json'},body:JSON.stringify({requests:[{insertText:{location:{index:1},text:texto}}]})});
+      const cd=await cr.json();if(cd.error)throw new Error(cd.error.message);
+      showAlert(alertId,'✅ Guardado. Abriendo documento...','success');
+      setTimeout(()=>window.open('https://docs.google.com/document/d/'+doc.id+'/edit','_blank'),800);
+    }catch(e){
+      if(e.message.includes('401')){cfg.token='';loginOAuth();return;}
+      showAlert(alertId,'❌ Error: '+e.message,'error');
     }
   }
 
-  function cerrarModal(id) { document.getElementById(id).classList.remove('open'); }
-
-  async function oPost(url,body) {
-    const res=await fetch(url,{method:'POST',headers:{'Authorization':'Bearer '+cfg.token,'Content-Type':'application/json'},body:JSON.stringify(body)});
-    const data=await res.json();
-    if (data.error) throw new Error(data.error.message);
-    return data;
-  }
-
-  function getEditUrl(f) {
-    if (f.mimeType==='application/vnd.google-apps.document') return 'https://docs.google.com/document/d/'+f.id+'/edit';
-    if (f.mimeType==='application/vnd.google-apps.spreadsheet') return 'https://docs.google.com/spreadsheets/d/'+f.id+'/edit';
-    if (f.mimeType&&f.mimeType.includes('word')) return 'https://docs.google.com/document/d/'+f.id+'/edit';
-    return f.webViewLink||'https://drive.google.com/file/d/'+f.id+'/view';
-  }
-
-  function getIcon(m) {
-    if (!m) return '📎';
-    if (m.includes('document')) return '📝';
-    if (m.includes('spreadsheet')||m.includes('excel')) return '📊';
-    if (m.includes('pdf')) return '📄';
-    if (m.includes('image')) return '🖼️';
-    return '📎';
-  }
-
-  function showAlert(id,msg,type) { const b=document.getElementById(id); b.textContent=msg; b.className='alert '+type; }
-
+  // ── HELPERS ───────────────────────────────────────────────
+  function cerrarModal(id){document.getElementById(id).classList.remove('open');}
+  async function oPost(url,body){const res=await fetch(url,{method:'POST',headers:{'Authorization':'Bearer '+cfg.token,'Content-Type':'application/json'},body:JSON.stringify(body)});const data=await res.json();if(data.error)throw new Error(data.error.message);return data;}
+  function getEditUrl(f){if(f.mimeType==='application/vnd.google-apps.document')return'https://docs.google.com/document/d/'+f.id+'/edit';if(f.mimeType==='application/vnd.google-apps.spreadsheet')return'https://docs.google.com/spreadsheets/d/'+f.id+'/edit';if(f.mimeType&&f.mimeType.includes('word'))return'https://docs.google.com/document/d/'+f.id+'/edit';return f.webViewLink||'https://drive.google.com/file/d/'+f.id+'/view';}
+  function getIcon(m){if(!m)return'📎';if(m.includes('document'))return'📝';if(m.includes('spreadsheet')||m.includes('excel'))return'📊';if(m.includes('pdf'))return'📄';if(m.includes('image'))return'🖼️';return'📎';}
+  function showAlert(id,msg,type){const b=document.getElementById(id);b.textContent=msg;b.className='alert '+type;}
   document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',e=>{if(e.target===e.currentTarget)cerrarModal(e.currentTarget.id);}));
-
   init();
 </script>
 </body>
